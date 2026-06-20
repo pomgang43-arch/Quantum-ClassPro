@@ -1,0 +1,21 @@
+{
+  "name": "Quantum ClassPro - วิทยาลัยเทคโนโลยีผดุงเสนา",
+  "short_name": "ClassPro",
+  "description": "ระบบจัดการชั้นเรียนไฮเทค",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#03050a",
+  "theme_color": "#06b6d4",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
