@@ -75,7 +75,6 @@
             .student-name-td { text-align: left !important; padding-left: 18px !important; color: #f1f5f9; font-weight: 400; }
         }
 
-        /* 🖨️ จัดระยะห่างใหม่สำหรับหน้าพิมพ์ A4 ให้สวยงามและพอดี 45 คน */
         @media print {
             @page { size: A4 portrait; margin: 10mm 12mm; } 
             body * { visibility: hidden; } 
@@ -94,7 +93,7 @@
             .form-table th, .form-table td { border: 1px solid #000000; padding: 2px 4px; text-align: center; font-size: 9pt; color: #000 !important; background: transparent !important; }
             .form-table td { height: 16px; } 
             .form-table th { font-weight: bold; background-color: #f3f4f6 !important; padding: 6px 4px; font-size: 9.5pt; }
-            .text-left { text-align: left !important; padding-left: 8px !important; }
+            .text-left { text-align: left !important; padding-left: 5px !important; }
             
             .summary-box { display: flex; justify-content: space-between; page-break-inside: avoid; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc; }
             .grade-table { width: 100%; border-collapse: collapse; border: 1px solid #000; margin-top: 5px; }
@@ -191,7 +190,7 @@
                 <div class="flex gap-2 md:gap-3 flex-wrap w-full sm:w-auto mt-2 sm:mt-0">
                     <button onclick="clearData()" class="px-3 py-2 bg-slate-900/80 border border-rose-500/20 text-rose-500 rounded-xl hover:bg-rose-500 hover:text-white transition flex-1 sm:flex-none text-center" title="ล้างข้อมูล"><i class="fas fa-trash-alt"></i></button>
                     <button onclick="exportToExcel()" class="px-3 py-2 bg-slate-900/80 border border-cyan-500/20 text-cyan-400 text-xs md:text-sm font-medium rounded-xl hover:bg-cyan-500/10 transition flex items-center justify-center gap-2 flex-1 sm:flex-none"><i class="fas fa-file-excel text-emerald-400"></i> <span class="hidden md:inline">สรุป Excel</span><span class="md:hidden">Excel</span></button>
-                    <button onclick="syncClassData(false)" class="px-3 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs md:text-sm font-medium rounded-xl shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 hover:-translate-y-1 transition transform flex-[2] sm:flex-none"><i class="fas fa-sync-alt"></i> อัปเดตรายชื่อ</button>
+                    <button onclick="saveDataToCloud()" class="px-3 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs md:text-sm font-medium rounded-xl shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 hover:-translate-y-1 transition transform flex-[2] sm:flex-none"><i class="fas fa-cloud-upload-alt"></i> บันทึกข้อมูลลง Cloud</button>
                 </div>
             </header>
 
@@ -206,7 +205,7 @@
                         <div class="px-4 md:px-6 py-4 md:py-5 border-b border-cyan-500/10 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-[#090d1a]/40 gap-4">
                             <div class="flex items-center gap-3">
                                 <h3 class="font-medium text-white text-sm md:text-base"><i class="fas fa-user-check mr-2 text-cyan-400"></i> ตารางเช็คชื่อ</h3>
-                                <div id="unsaved-badge" class="hidden bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-md text-[10px] md:text-xs font-medium border border-amber-500/20 animate-pulse">ยังไม่บันทึก</div>
+                                <div id="unsaved-badge" class="hidden bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-md text-[10px] md:text-xs font-medium border border-amber-500/20 animate-pulse">มีการเปลี่ยนแปลงข้อมูล</div>
                                 <div id="readonly-badge" class="hidden bg-rose-500/10 text-rose-400 px-2.5 py-0.5 rounded-md text-[10px] md:text-xs font-medium border border-rose-500/20"><i class="fas fa-lock mr-1"></i> ดูย้อนหลัง (แก้ไขไม่ได้)</div>
                             </div>
                             <div class="flex items-center gap-2 md:gap-3 w-full sm:w-auto">
@@ -215,9 +214,6 @@
                             </div>
                         </div>
                         <div class="overflow-x-auto pb-4"><table class="w-full text-left whitespace-nowrap pro-table"><thead><tr><th class="p-3 md:p-4 w-24 md:w-32">รหัส</th><th class="p-3 md:p-4 text-left">ชื่อ - นามสกุล</th><th class="p-3 md:p-4 text-center w-64 md:w-72" id="table-date-header">สถานะเช็คชื่อ</th><th class="p-3 md:p-4 text-center w-24 md:w-32">มาเรียน</th></tr></thead><tbody id="attendance-tbody" class="text-xs md:text-sm"></tbody></table></div>
-                        <div class="px-4 md:px-6 py-4 bg-[#090d1a]/20 border-t border-cyan-500/10 flex justify-end">
-                            <button id="btn-save-att" onclick="saveAttendance()" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm font-medium rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:-translate-y-1 transition transform flex items-center justify-center"><i class="fas fa-save mr-2"></i> บันทึกข้อมูลวันนี้</button>
-                        </div>
                     </div>
                 </div>
 
@@ -234,7 +230,7 @@
                             </div>
                         </div>
                         <div id="grade-settings-panel" class="hidden px-4 md:px-6 py-6 bg-[#03050a] border-b border-cyan-500/10 space-y-5">
-                            <div class="border-b border-slate-800 pb-4"><h4 class="font-medium text-sm text-cyan-400"><i class="fas fa-percentage mr-1"></i> 1. สัดส่วนน้ำหนักเกรด (รวมต้องได้ 100) และหน่วยกิต</h4>
+                            <div class="border-b border-slate-800 pb-4"><h4 class="font-medium text-sm text-cyan-400"><i class="fas fa-percentage mr-1"></i> 1. สัดส่วนน้ำหนักเกรด และหน่วยกิต</h4>
                                 <div class="grid grid-cols-3 md:grid-cols-6 gap-3 mt-3">
                                     <div><label class="block text-[10px] md:text-xs font-light text-slate-400 mb-1">เก็บก่อนกลาง</label><input type="number" id="set-pre" class="w-full p-2 cyber-input text-center"></div>
                                     <div><label class="block text-[10px] md:text-xs font-light text-slate-400 mb-1">สอบกลางภาค</label><input type="number" id="set-mid" class="w-full p-2 cyber-input text-center"></div>
@@ -252,7 +248,7 @@
                                     <div><label class="block text-[10px] md:text-xs font-light text-purple-400 mb-1">ปลาย: เขียน (เต็ม)</label><input type="number" id="set-finalWriteMax" class="w-full p-2 cyber-input text-center"></div>
                                 </div>
                             </div>
-                            <div class="flex justify-end pt-2"><button onclick="saveGradeSettings()" class="w-full md:w-auto px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl text-sm font-medium shadow-md hover:-translate-y-1 transition transform">บันทึกโครงสร้าง</button></div>
+                            <div class="flex justify-end pt-2"><button onclick="saveGradeSettings()" class="w-full md:w-auto px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl text-sm font-medium shadow-md hover:-translate-y-1 transition transform">บันทึกโครงสร้างเกณฑ์</button></div>
                         </div>
                         <div class="overflow-x-auto pb-4"><table class="w-full text-left whitespace-nowrap pro-table"><thead id="grades-thead-tr"></thead><tbody id="grades-tbody" class="text-xs md:text-sm"></tbody></table></div>
                     </div>
@@ -271,7 +267,6 @@
         </main>
     </div>
 
-    <!-- 🖨️ PRINT SECTION: แบบฟอร์มรายงานผล ปพ. -->
     <div id="print-section">
         <div class="print-header-block">
             <img src="logo.png" alt="โลโก้วิทยาลัย" onerror="this.style.display='none'">
@@ -303,7 +298,6 @@
         </div>
     </div>
 
-    <!-- 🧠 JS ENGINE CONTROL CENTER -->
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbwi7jXZ9GMH0nOVUM_5VhM8gM82UPDwnQCwlfcZaZxdngdp2sD-niXMT7UunyqKtjaY/exec";
         
@@ -361,7 +355,7 @@
                     checkSession(); 
                 } 
                 else { showToast(data.message, 'error'); }
-            } catch(e) { alert("⚠️ เชื่อมต่อล้มเหลว\nสาเหตุ: " + e.message); showToast('การเชื่อมต่อถูกปฏิเสธ', 'error'); }
+            } catch(e) { alert("⚠️ เชื่อมต่อล้มเหลว ตรวจสอบสิทธิ์ Apps Script\nสาเหตุ: " + e.message); showToast('การเชื่อมต่อถูกปฏิเสธ', 'error'); }
             btn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> ล็อกอินเข้าสู่ระบบ'; btn.disabled = false;
         }
 
@@ -391,7 +385,8 @@
             } catch(e) { grid.innerHTML = '<p class="text-red-400 text-center col-span-3">ขัดข้องทางเครือข่ายวิชา</p>'; }
         }
 
-        function enterCourse(courseObj) {
+        // 🌟 อัปเดตฟังก์ชัน: เมื่อเข้าห้องเรียน ให้ดึงข้อมูลจากไฟล์วิชาแยกบน Cloud เสมอ
+        async function enterCourse(courseObj) {
             currentCourse = courseObj; sessionStorage.setItem('currentCourse', JSON.stringify(courseObj));
             document.getElementById('dash-course-name').innerText = courseObj.courseName; document.getElementById('dash-class-level').innerText = courseObj.classLevel;
             document.getElementById('dash-course-id').innerText = `ID: ${courseObj.courseId}`; document.getElementById('dash-teacher-name').innerText = teacherSession.fullName;
@@ -401,19 +396,63 @@
             document.getElementById('p-class').innerText = courseObj.classLevel; document.getElementById('p-teacher').innerText = teacherSession.fullName;
             document.getElementById('p-sig-teacher').innerText = `( ${teacherSession.fullName} )`;
 
-            classData = JSON.parse(localStorage.getItem(`courseData_${courseObj.courseId}`)) || [];
-            gradeCols = JSON.parse(localStorage.getItem(`cols_${courseObj.courseId}`)) || [];
-            let savedSet = JSON.parse(localStorage.getItem(`set_${courseObj.courseId}`));
-            if(savedSet) { 
-                if(savedSet.midChoiceMax === undefined) { 
-                    gradeSettings = { preMid: 15, mid: 20, midChoiceMax: 30, midWriteMax: 10, postMid: 15, behave: 10, final: 40, finalChoiceMax: 40, finalWriteMax: 20, credits: 3 }; 
-                } else { 
-                    gradeSettings = savedSet; 
-                    if(gradeSettings.credits === undefined) gradeSettings.credits = 3;
-                } 
-            }
             showScreen('dashboard'); switchTab('attendance');
-            if(classData.length === 0) syncClassData(false); else { renderAll(); syncClassData(true); }
+            showToast('กำลังเชื่อมข้อมูลรายวิชาจาก Cloud...', 'info');
+
+            try {
+                // ดึงข้อมูลเกณฑ์และคะแนนจาก Sheet ประจำวิชา
+                let res = await fetch(`${API_URL}?action=loadCourseData&courseId=${courseObj.courseId}&courseName=${encodeURIComponent(courseObj.courseName)}&classLevel=${encodeURIComponent(courseObj.classLevel)}`);
+                let result = await res.json();
+                
+                if (result.status === "success" && result.data) {
+                    classData = result.data.classData || [];
+                    gradeCols = result.data.gradeCols || [];
+                    gradeSettings = result.data.gradeSettings || gradeSettings;
+                    renderAll();
+                    showToast('ซิงค์โครงสร้างข้อมูลวิชาสำเร็จ 🚀');
+                } else {
+                    // ถ้ายังไม่มีไฟล์วิชานี้บน Drive ให้ดึงรายชื่อนร.เริ่มต้นจากสารบบชีทหลักก่อน
+                    classData = []; gradeCols = [];
+                    await syncClassData(true);
+                }
+            } catch (err) {
+                await syncClassData(true);
+            }
+        }
+
+        // 🌟 อัปเดตฟังก์ชัน: ส่งค่าขึ้นไปเซฟแยกไฟล์ประจำวิชาบน Google Drive โฟลเดอร์รวม
+        async function saveDataToCloud() {
+            if(!currentCourse) return;
+            showToast('กำลังอัปโหลดข้อมูลเข้าฐานข้อมูล Cloud...', 'info');
+            
+            let dataPayload = {
+                classData: classData,
+                gradeCols: gradeCols,
+                gradeSettings: gradeSettings
+            };
+
+            try {
+                let res = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: "saveCourseData",
+                        courseId: currentCourse.courseId,
+                        courseName: currentCourse.courseName,
+                        classLevel: currentCourse.classLevel,
+                        payload: dataPayload
+                    })
+                });
+                let result = await res.json();
+                if(result.status === "success") {
+                    document.getElementById('unsaved-badge').classList.add('hidden');
+                    showToast('บันทึกฐานข้อมูลลง Google Drive เรียบร้อย! 🔒');
+                    triggerConfetti();
+                } else {
+                    alert("เกิดข้อผิดพลาด: " + result.message);
+                }
+            } catch (err) {
+                alert("เซฟไม่สำเร็จ ตรวจสอบการเชื่อมต่อเครือข่ายวิทยาลัย");
+            }
         }
 
         function backToCourses() { sessionStorage.removeItem('currentCourse'); showScreen('courses'); fetchCourses(); }
@@ -430,20 +469,13 @@
                         let existing = classData.find(s => s.id == id); if(existing) { existing.name = name; return existing; }
                         return { id: id, name: name, attendance: {}, midChoice: 0, midWrite: 0, finalChoice: 0, finalWrite: 0, scoreMid: 0, scoreBehave: 0, scoreFinal: 0, manualPre: 0, manualPost: 0, scaledPre: 0, scaledPost: 0, total: 0, grade: '-', scores: {} };
                     });
-                    classData = newData; saveDataToLocal(); renderAll(); 
+                    classData = newData; renderAll(); 
                     if(!isSilent) { showToast(`ซิงค์สำเร็จ ${classData.length} CORE UNIT`, 'success'); triggerConfetti(); }
-                } else { if(!isSilent) showToast('ไม่พบอาร์เรย์รายชื่อ', 'error'); }
-            } catch(e) { alert("🔴 กล่องข้อความวินิจฉัยโรค\nสาเหตุ: " + e.message); }
+                }
+            } catch(e) { console.log(e); }
         }
 
-        function saveDataToLocal() {
-            if(!currentCourse) return;
-            localStorage.setItem(`courseData_${currentCourse.courseId}`, JSON.stringify(classData));
-            localStorage.setItem(`cols_${currentCourse.courseId}`, JSON.stringify(gradeCols));
-            localStorage.setItem(`set_${currentCourse.courseId}`, JSON.stringify(gradeSettings));
-        }
-
-        function clearData() { if(confirm('สลายนิวเคลียสคะแนนและรายชื่อทั้งหมดกลุ่มนี้?')) { classData = []; saveDataToLocal(); renderAll(); showToast('เคลียร์ค่าว่างเปล่าสำเร็จ'); } }
+        function clearData() { if(confirm('สลายนิวเคลียสคะแนนและรายชื่อทั้งหมดกลุ่มนี้?')) { classData = []; renderAll(); showToast('เคลียร์ค่าว่างเปล่าสำเร็จ'); } }
 
         function computeStudentTotal(s) {
             let preCols = gradeCols.filter(c => c.period === 'pre'); let maxPre = preCols.reduce((sum, c) => sum + c.max, 0); let sumPre = preCols.reduce((sum, c) => sum + (s.scores[c.id] || 0), 0);
@@ -464,32 +496,19 @@
             if(s.total > 100) s.total = 100; s.grade = calculateGrade(s.total);
         }
 
-        function calculateGrade(t) { if(t>=80) return '4'; if(t>=75) return '3.5'; if(t>=70) return '3'; if(t>=65) return '2.5'; if(t>=60) return '2'; if(t>=55) return '1.5'; if(t>=50) return '1'; if(t>0) return '0'; return '-'; }
-        
-        function switchTab(tabId) { 
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden')); 
-            document.querySelectorAll('.cyber-btn').forEach(el => el.classList.remove('cyber-active')); 
-            document.getElementById('section-' + tabId).classList.remove('hidden'); 
-            document.getElementById('btn-' + tabId).classList.add('cyber-active'); 
-            if(window.innerWidth < 768) { document.getElementById('app-sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-overlay').classList.add('hidden'); }
-        }
-
-        function toggleGradeSettings() { const p = document.getElementById('grade-settings-panel'); if(p.classList.contains('hidden')) { document.getElementById('set-pre').value = gradeSettings.preMid; document.getElementById('set-mid').value = gradeSettings.mid; document.getElementById('set-post').value = gradeSettings.postMid; document.getElementById('set-behave').value = gradeSettings.behave; document.getElementById('set-final').value = gradeSettings.final; document.getElementById('set-midChoiceMax').value = gradeSettings.midChoiceMax; document.getElementById('set-midWriteMax').value = gradeSettings.midWriteMax; document.getElementById('set-finalChoiceMax').value = gradeSettings.finalChoiceMax; document.getElementById('set-finalWriteMax').value = gradeSettings.finalWriteMax; document.getElementById('set-credits').value = gradeSettings.credits || 3; p.classList.remove('hidden'); } else { p.classList.add('hidden'); } }
-        
         function saveGradeSettings() { 
             let pr = parseInt(document.getElementById('set-pre').value)||0; let m = parseInt(document.getElementById('set-mid').value)||0; let po = parseInt(document.getElementById('set-post').value)||0; let b = parseInt(document.getElementById('set-behave').value)||0; let f = parseInt(document.getElementById('set-final').value)||0; 
             if((pr + m + po + b + f) !== 100) return alert('ผลรวมสัดส่วน 5 ช่องหลักต้องเท่ากับ 100'); 
             gradeSettings = { preMid: pr, mid: m, postMid: po, behave: b, final: f, midChoiceMax: parseInt(document.getElementById('set-midChoiceMax').value)||20, midWriteMax: parseInt(document.getElementById('set-midWriteMax').value)||10, finalChoiceMax: parseInt(document.getElementById('set-finalChoiceMax').value)||40, finalWriteMax: parseInt(document.getElementById('set-finalWriteMax').value)||20, credits: parseInt(document.getElementById('set-credits').value)||3 }; 
-            classData.forEach(s => computeStudentTotal(s)); saveDataToLocal(); toggleGradeSettings(); renderAll(); showToast('บันทึกเกณฑ์สอบสำเร็จ'); triggerConfetti();
+            classData.forEach(s => computeStudentTotal(s)); document.getElementById('unsaved-badge').classList.remove('hidden'); toggleGradeSettings(); renderAll(); showToast('แก้ไขเกณฑ์สำเร็จ อย่าลืมกดเซฟขึ้น Cloud ด้านบนนะครับ');
         }
         
-        function addGradeColumn(period) { const name = prompt(`กรอกชื่อหัวข้อชิ้นงานย่อย:`); if(!name) return; const max = prompt(`กรอกคะแนนดิบเต็มประจำชิ้นงาน:`); if(!max||isNaN(max)) return; const newId = 'col_'+Date.now(); gradeCols.push({id: newId, name: name, max: parseInt(max), period: period}); classData.forEach(s => { if(!s.scores) s.scores={}; s.scores[newId]=0; computeStudentTotal(s); }); saveDataToLocal(); renderAll(); }
-        function removeGradeColumn(colId) { if(!confirm('ลบช่องคะแนนเก็บย่อยนี้?')) return; gradeCols = gradeCols.filter(c => c.id !== colId); classData.forEach(s => { delete s.scores[colId]; computeStudentTotal(s); }); saveDataToLocal(); renderAll(); }
-        function updateCustomScore(idx, colId, val, max) { let n = parseFloat(val)||0; if(n>max) n=max; classData[idx].scores[colId] = n; computeStudentTotal(classData[idx]); saveDataToLocal(); renderAll(); }
-        function updateLockedScore(idx, field, val, max) { let n = parseFloat(val)||0; if(n>max) n=max; classData[idx][field] = n; computeStudentTotal(classData[idx]); saveDataToLocal(); renderAll(); }
+        function addGradeColumn(period) { const name = prompt(`กรอกชื่อหัวข้อชิ้นงานย่อย:`); if(!name) return; const max = prompt(`กรอกคะแนนดิบเต็มประจำชิ้นงาน:`); if(!max||isNaN(max)) return; const newId = 'col_'+Date.now(); gradeCols.push({id: newId, name: name, max: parseInt(max), period: period}); classData.forEach(s => { if(!s.scores) s.scores={}; s.scores[newId]=0; computeStudentTotal(s); }); document.getElementById('unsaved-badge').classList.remove('hidden'); renderAll(); }
+        function removeGradeColumn(colId) { if(!confirm('ลบช่องคะแนนเก็บย่อยนี้?')) return; gradeCols = gradeCols.filter(c => c.id !== colId); classData.forEach(s => { delete s.scores[colId]; computeStudentTotal(s); }); document.getElementById('unsaved-badge').classList.remove('hidden'); renderAll(); }
+        function updateCustomScore(idx, colId, val, max) { let n = parseFloat(val)||0; if(n>max) n=max; classData[idx].scores[colId] = n; computeStudentTotal(classData[idx]); document.getElementById('unsaved-badge').classList.remove('hidden'); renderAll(); }
+        function updateLockedScore(idx, field, val, max) { let n = parseFloat(val)||0; if(n>max) n=max; classData[idx][field] = n; computeStudentTotal(classData[idx]); document.getElementById('unsaved-badge').classList.remove('hidden'); renderAll(); }
         function updateAttendance(idx, status) { classData[idx].attendance[currentDate] = status; document.getElementById('unsaved-badge').classList.remove('hidden'); renderAll(); }
-        
-        function saveAttendance() { saveDataToLocal(); document.getElementById('unsaved-badge').classList.add('hidden'); showToast('บันทึกเวลาเรียนเรียบร้อย'); triggerConfetti(); }
+        function saveAttendance() { saveDataToCloud(); }
         function changeDate() { currentDate = document.getElementById('date-picker').value; renderAll(); }
         
         function markHoliday() { 
@@ -497,16 +516,13 @@
             let reason = prompt(`ตั้งวันหยุดคลาสประจำวันที่ ${currentDate}\n\nโปรดระบุสาเหตุการหยุด:`, "วันหยุดพิเศษ");
             if(reason === null) return; 
             let val = reason.trim() === "" ? "holiday" : "holiday:" + reason.trim();
-            classData.forEach(s=>{s.attendance[currentDate] = val;}); 
-            saveDataToLocal(); renderAll(); triggerConfetti();
+            classData.forEach(s=>{s.attendance[currentDate] = val;}); document.getElementById('unsaved-badge').classList.remove('hidden'); renderAll();
         }
 
         function exportToExcel() {
             if(classData.length === 0) return;
             const exportData = classData.map((s, idx) => {
                 let rData = { 'ลำดับ': idx + 1, 'รหัส': s.id, 'ชื่อ-นามสกุล': s.name };
-                
-                // 🌟 [อัปเกรดใหม่] คำนวณสถิติการเข้าเรียน
                 let present = 0, late = 0, absent = 0, totalDays = 0;
                 for(let d in s.attendance) {
                     let status = s.attendance[d];
@@ -518,22 +534,14 @@
                     }
                 }
                 let percent = totalDays === 0 ? 0 : Math.round(((present + late) / totalDays) * 100);
-                
-                // 🌟 นำสถิติเวลาเรียนใส่ลงใน Excel
-                rData['คาบเรียนทั้งหมด'] = totalDays;
-                rData['มาเรียน (ครั้ง)'] = present;
-                rData['สาย (ครั้ง)'] = late;
-                rData['ขาดเรียน (ครั้ง)'] = absent;
-                rData['เปอร์เซ็นต์เข้าเรียน'] = percent + '%';
-
-                // โซนคะแนนเดิม
-                gradeCols.filter(c=>c.period==='pre').forEach(c => { rData[`${c.name} (ดิบ${c.max})`] = s.scores[c.id] || 0; });
-                rData[`รวมก่อนกลางภาค (${gradeSettings.preMid})`] = s.scaledPre;
-                rData[`กลางภาค ข้อกา (${gradeSettings.midChoiceMax})`] = s.midChoice || 0; rData[`กลางภาค ข้อเขียน (${gradeSettings.midWriteMax})`] = s.midWrite || 0; rData[`รวมกลางภาค (${gradeSettings.mid})`] = s.scoreMid;
-                gradeCols.filter(c=>c.period==='post').forEach(c => { rData[`${c.name} (ดิบ${c.max})`] = s.scores[c.id] || 0; });
-                rData[`รวมหลังกลางภาค (${gradeSettings.postMid})`] = s.scaledPost;
+                rData['คาบเรียนทั้งหมด'] = totalDays; rData['มาเรียน'] = present; rData['สาย'] = late; rData['ขาด'] = absent; rData['% เข้าเรียน'] = percent + '%';
+                gradeCols.filter(c=>c.period==='pre').forEach(c => { rData[`${c.name} (${c.max})`] = s.scores[c.id] || 0; });
+                rData[`รวมก่อนกลาง (${gradeSettings.preMid})`] = s.scaledPre;
+                rData[`กลางภาค กา`] = s.midChoice || 0; rData[`กลางภาค เขียน`] = s.midWrite || 0; rData[`รวมกลาง (${gradeSettings.mid})`] = s.scoreMid;
+                gradeCols.filter(c=>c.period==='post').forEach(c => { rData[`${c.name} (${c.max})`] = s.scores[c.id] || 0; });
+                rData[`รวมหลังกลาง (${gradeSettings.postMid})`] = s.scaledPost;
                 rData[`จิตพิสัย (${gradeSettings.behave})`] = s.scoreBehave || 0;
-                rData[`ปลายภาค ข้อกา (${gradeSettings.finalChoiceMax})`] = s.finalChoice || 0; rData[`ปลายภาค ข้อเขียน (${gradeSettings.finalWriteMax})`] = s.finalWrite || 0; rData[`รวมปลายภาค (${gradeSettings.final})`] = s.scoreFinal;
+                rData[`ปลายภาค กา`] = s.finalChoice || 0; rData[`ปลายภาค เขียน`] = s.finalWrite || 0; rData[`รวมปลาย (${gradeSettings.final})`] = s.scoreFinal;
                 rData['รวม 100'] = s.total; rData['เกรด'] = s.grade; return rData;
             });
             const ws = XLSX.utils.json_to_sheet(exportData); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "สรุปเกรดและเวลาเรียน"); XLSX.writeFile(wb, `รายงานผลสัมฤทธิ์_${currentCourse.courseId}.xlsx`);
@@ -544,13 +552,12 @@
             let todayStr = new Date().toISOString().split('T')[0];
             let isEditable = (currentDate === todayStr);
 
-            const btnSave = document.getElementById('btn-save-att'); const btnHol = document.getElementById('btn-holiday');
-            const badgeRO = document.getElementById('readonly-badge'); const badgeUnsaved = document.getElementById('unsaved-badge');
+            const btnHol = document.getElementById('btn-holiday');
+            const badgeRO = document.getElementById('readonly-badge');
+            const badgeUnsaved = document.getElementById('unsaved-badge');
             
-            if(btnSave) btnSave.style.display = isEditable ? 'flex' : 'none';
             if(btnHol) btnHol.style.display = isEditable ? 'inline-block' : 'none';
             if(badgeRO) badgeRO.classList.toggle('hidden', isEditable);
-            if(!isEditable && badgeUnsaved) badgeUnsaved.classList.add('hidden');
 
             let p=0, a=0; classData.forEach(s => { let st = s.attendance[currentDate]; if(st && (st==='present'||st==='late')) p++; if(st==='absent') a++; });
             document.getElementById('stat-total').innerText = classData.length; document.getElementById('stat-present').innerText = p; document.getElementById('stat-absent').innerText = a;
@@ -568,12 +575,12 @@
                 
                 let actionHTML = '';
                 if (isHoliday) {
-                    actionHTML = `<span class="text-purple-400 font-medium bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-xl text-xs md:text-sm shadow-[0_0_10px_rgba(168,85,247,0.2)]"><i class="fas fa-bed mr-1.5"></i>หยุด: ${holReason}</span>`;
+                    actionHTML = `<span class="text-purple-400 font-medium bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-xl text-xs shadow-[0_0_10px_rgba(168,85,247,0.2)]"><i class="fas fa-bed mr-1.5"></i>หยุด: ${holReason}</span>`;
                 } else if (!isEditable) {
-                    if(st==='present') actionHTML = `<span class="text-emerald-400 font-medium bg-emerald-500/10 px-4 py-1.5 rounded-xl text-xs md:text-sm border border-emerald-500/20"><i class="fas fa-check mr-1.5"></i> มาเรียน</span>`;
-                    else if(st==='late') actionHTML = `<span class="text-amber-400 font-medium bg-amber-500/10 px-4 py-1.5 rounded-xl text-xs md:text-sm border border-amber-500/20"><i class="fas fa-clock mr-1.5"></i> สาย</span>`;
-                    else if(st==='absent') actionHTML = `<span class="text-rose-400 font-medium bg-rose-500/10 px-4 py-1.5 rounded-xl text-xs md:text-sm border border-rose-500/20"><i class="fas fa-times mr-1.5"></i> ขาดเรียน</span>`;
-                    else actionHTML = `<span class="text-slate-500 font-medium bg-slate-800 px-4 py-1.5 rounded-xl text-xs md:text-sm border border-slate-700">ไม่มีข้อมูล</span>`;
+                    if(st==='present') actionHTML = `<span class="text-emerald-400 font-medium bg-emerald-500/10 px-4 py-1.5 rounded-xl text-xs border border-emerald-500/20"><i class="fas fa-check mr-1.5"></i> มาเรียน</span>`;
+                    else if(st==='late') actionHTML = `<span class="text-amber-400 font-medium bg-amber-500/10 px-4 py-1.5 rounded-xl text-xs border border-amber-500/20"><i class="fas fa-clock mr-1.5"></i> สาย</span>`;
+                    else if(st==='absent') actionHTML = `<span class="text-rose-400 font-medium bg-rose-500/10 px-4 py-1.5 rounded-xl text-xs border border-rose-500/20"><i class="fas fa-times mr-1.5"></i> ขาดเรียน</span>`;
+                    else actionHTML = `<span class="text-slate-500 font-medium bg-slate-800 px-4 py-1.5 rounded-xl text-xs border border-slate-700">ไม่มีข้อมูล</span>`;
                 } else {
                     actionHTML = `<div class="inline-flex gap-1.5"><button onclick="updateAttendance(${i},'present')" class="px-3 py-1 text-xs md:text-sm font-medium rounded-xl transition ${btnP}">มา</button><button onclick="updateAttendance(${i},'late')" class="px-3 py-1 text-xs md:text-sm font-medium rounded-xl transition ${btnL}">สาย</button><button onclick="updateAttendance(${i},'absent')" class="px-3 py-1 text-xs md:text-sm font-medium rounded-xl transition ${btnA}">ขาด</button></div>`;
                 }
@@ -614,11 +621,8 @@
             });
 
             let inTermMax = gradeSettings.preMid + gradeSettings.mid + gradeSettings.postMid + gradeSettings.behave; let finalMax = gradeSettings.final;
-            
-            // อัปเดตหน่วยกิตไดนามิก
-            document.getElementById('p-credits').innerText = gradeSettings.credits || 3;
-
             document.getElementById('print-ratio-text').innerText = `ระหว่างภาค : ปลายภาค = ${inTermMax} : ${finalMax}`;
+            document.getElementById('p-credits').innerText = gradeSettings.credits || 3;
             document.getElementById('eval-preview-thead').innerHTML = `<tr><th class="p-3 text-center">รหัสนักศึกษา</th><th class="p-3">ชื่อ - นามสกุล</th><th class="p-3 text-center text-cyan-400">ระหว่างภาค (${inTermMax})</th><th class="p-3 text-center text-purple-400">ปลายภาค (${finalMax})</th><th class="p-3 text-center font-bold text-white">รวม (100)</th><th class="p-3 text-center font-bold text-emerald-400">เกรดที่อนุมัติ</th></tr>`;
             document.getElementById('print-thead').innerHTML = `<tr style="background-color:#f3f4f6"><th style="width:7%">เลขที่</th><th style="width:16%">รหัสนักศึกษา</th><th style="width:37%" class="text-left">ชื่อ - นามสกุล</th><th style="width:10%">ระหว่างภาค<br>${inTermMax}</th><th style="width:10%">ปลายภาค<br>${finalMax}</th><th style="width:10%">คะแนนรวม<br>100</th><th style="width:10%">เกรด</th></tr>`;
             
@@ -630,7 +634,6 @@
                 tEval.innerHTML += `<tr><td class="p-2 text-center text-xs font-mono text-slate-500">${s.id}</td><td class="p-2 text-sm font-medium student-name-td">${s.name}</td><td class="p-2 text-center font-bold text-cyan-400">${totalInTerm}</td><td class="p-2 text-center font-bold text-purple-400">${s.scoreFinal}</td><td class="p-2 text-center font-black text-white">${s.total}</td><td class="p-2 text-center font-bold text-emerald-400">${s.grade}</td></tr>`;
                 tPrn.innerHTML += `<tr><td>${i+1}</td><td>${s.id}</td><td class="text-left">${s.name}</td><td>${totalInTerm}</td><td>${s.scoreFinal}</td><td>${s.total}</td><td><b>${s.grade}</b></td></tr>`;
             });
-            
             document.getElementById('print-total').innerText = classData.length; 
             document.getElementById('print-summary-body').innerHTML = `<tr><td>ระดับคะแนน 4 (A)</td><td><b>${gc['4']}</b> คน</td></tr><tr><td>ระดับคะแนน 3.5 (B+)</td><td><b>${gc['3.5']}</b> คน</td></tr><tr><td>ระดับคะแนน 3 (B)</td><td><b>${gc['3']}</b> คน</td></tr><tr><td>ระดับคะแนน 2.5 (C+)</td><td><b>${gc['2.5']}</b> คน</td></tr><tr><td>ระดับคะแนน 2 (C)</td><td><b>${gc['2']}</b> คน</td></tr><tr><td>ระดับคะแนน 1.5 (D+)</td><td><b>${gc['1.5']}</b> คน</td></tr><tr><td>ระดับคะแนน 1 (D)</td><td><b>${gc['1']}</b> คน</td></tr><tr><td>ระดับคะแนน 0 (F)</td><td><b>${gc['0']}</b> คน</td></tr>`;
         }
