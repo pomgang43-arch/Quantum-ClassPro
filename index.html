@@ -77,44 +77,31 @@
 
         /* 🖨️ จัดระยะห่างใหม่สำหรับหน้าพิมพ์ A4 ให้สวยงามและพอดี 45 คน */
         @media print {
-            /* ปรับระยะขอบหน้ากระดาษให้มีพื้นที่พักสายตาพอดี */
             @page { size: A4 portrait; margin: 10mm 12mm; } 
-            
             body * { visibility: hidden; } 
             #print-section, #print-section * { visibility: visible; }
-            
             #print-section { position: absolute; left: 0; top: 0; width: 100%; font-family: 'Sarabun', sans-serif; font-size: 9.5pt; color: #000000; line-height: 1.2; background: white; }
             
-            /* ส่วนหัว (โลโก้ + ชื่อวิทยาลัย) */
             .print-header-block { text-align: center; margin-bottom: 12px; min-height: 60px; position: relative; }
             .print-header-block img { position: absolute; left: 0; top: 0; width: 60px; height: auto; object-fit: contain; }
             .print-title { font-weight: bold; font-size: 14pt; padding-top: 2px; letter-spacing: 0.5px; }
             .print-subtitle { font-size: 11.5pt; margin-top: 4px; font-weight: 500; }
             
-            /* ส่วนตารางข้อมูลรายวิชาด้านบน */
             .info-table { width: 100%; font-size: 10pt; margin-bottom: 8px; border-collapse: collapse; }
             .info-table td { padding: 2px 0; }
 
-            /* ตารางรายชื่อ 45 คน */
             .form-table { width: 100%; border-collapse: collapse; margin-top: 4px; margin-bottom: 12px; border: 1px solid #000; }
             .form-table th, .form-table td { border: 1px solid #000000; padding: 2px 4px; text-align: center; font-size: 9pt; color: #000 !important; background: transparent !important; }
-            
-            /* ล็อกความสูงแถวของนักเรียนให้อ่านสบาย ไม่แน่นและไม่หลวมเกินไป (16px คือจุดสมดุลสำหรับ 45 คน) */
             .form-table td { height: 16px; } 
             .form-table th { font-weight: bold; background-color: #f3f4f6 !important; padding: 6px 4px; font-size: 9.5pt; }
             .text-left { text-align: left !important; padding-left: 8px !important; }
             
-            /* ส่วนสรุปผลด้านล่างสุด (มีเส้นประคั่นเพิ่มความสวยงาม) */
             .summary-box { display: flex; justify-content: space-between; page-break-inside: avoid; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc; }
-            
-            /* ตารางเล็กฝั่งซ้าย (เกรด) */
             .grade-table { width: 100%; border-collapse: collapse; border: 1px solid #000; margin-top: 5px; }
             .grade-table th, .grade-table td { border: 1px solid #000000; padding: 3px 5px; text-align: center; font-size: 9pt; }
             .grade-table th { background-color: #f3f4f6 !important; }
             
-            /* โซนลายเซ็นฝั่งขวา */
             .sig-grid { display: grid; grid-template-columns: 1fr 1fr; row-gap: 20px; column-gap: 25px; text-align: center; margin-top: 10px; font-size: 9.5pt; }
-            
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
@@ -158,7 +145,7 @@
             <div id="course-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-6 pb-20"></div>
         </div>
     </div>
-    <!-- 💻 หน้าจอที่ 3: สถานีควบคุมห้องเรียนหลัก -->
+
     <div id="screen-dashboard" class="hidden h-screen w-full flex z-30 fixed inset-0 bg-[#04060d]">
         
         <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
@@ -247,13 +234,14 @@
                             </div>
                         </div>
                         <div id="grade-settings-panel" class="hidden px-4 md:px-6 py-6 bg-[#03050a] border-b border-cyan-500/10 space-y-5">
-                            <div class="border-b border-slate-800 pb-4"><h4 class="font-medium text-sm text-cyan-400"><i class="fas fa-percentage mr-1"></i> 1. สัดส่วนน้ำหนักเกรด (รวมต้องได้ 100)</h4>
-                                <div class="grid grid-cols-3 md:grid-cols-5 gap-3 mt-3">
+                            <div class="border-b border-slate-800 pb-4"><h4 class="font-medium text-sm text-cyan-400"><i class="fas fa-percentage mr-1"></i> 1. สัดส่วนน้ำหนักเกรด (รวมต้องได้ 100) และหน่วยกิต</h4>
+                                <div class="grid grid-cols-3 md:grid-cols-6 gap-3 mt-3">
                                     <div><label class="block text-[10px] md:text-xs font-light text-slate-400 mb-1">เก็บก่อนกลาง</label><input type="number" id="set-pre" class="w-full p-2 cyber-input text-center"></div>
                                     <div><label class="block text-[10px] md:text-xs font-light text-slate-400 mb-1">สอบกลางภาค</label><input type="number" id="set-mid" class="w-full p-2 cyber-input text-center"></div>
                                     <div><label class="block text-[10px] md:text-xs font-light text-slate-400 mb-1">เก็บหลังกลาง</label><input type="number" id="set-post" class="w-full p-2 cyber-input text-center"></div>
                                     <div><label class="block text-[10px] md:text-xs font-light text-slate-400 mb-1">จิตพิสัย</label><input type="number" id="set-behave" class="w-full p-2 cyber-input text-center"></div>
                                     <div><label class="block text-[10px] md:text-xs font-light text-slate-400 mb-1">สอบปลายภาค</label><input type="number" id="set-final" class="w-full p-2 cyber-input text-center"></div>
+                                    <div><label class="block text-[10px] md:text-xs font-medium text-cyan-400 mb-1">หน่วยกิตวิชา</label><input type="number" id="set-credits" class="w-full p-2 cyber-input text-center"></div>
                                 </div>
                             </div>
                             <div><h4 class="font-medium text-sm text-purple-400"><i class="fas fa-edit mr-1"></i> 2. คะแนนดิบเต็มของข้อสอบ</h4>
@@ -282,7 +270,8 @@
             </div>
         </main>
     </div>
-    <!-- 🖨️ PRINT SECTION: แบบฟอร์มรายงานผล ปพ. (หน้าเดียว 45 คน แบบโปร) -->
+
+    <!-- 🖨️ PRINT SECTION: แบบฟอร์มรายงานผล ปพ. -->
     <div id="print-section">
         <div class="print-header-block">
             <img src="logo.png" alt="โลโก้วิทยาลัย" onerror="this.style.display='none'">
@@ -290,7 +279,7 @@
             <div class="print-subtitle">วิทยาลัยเทคโนโลยีผดุงเสนาบริหารธุรกิจ อ.เสนา จ.พระนครศรีอยุธยา</div>
         </div>
         <table class="info-table">
-            <tr><td style="text-align: left; width: 35%;"><b>รหัสวิชา:</b> <span id="p-course-id">-</span></td><td style="text-align: left; width: 45%;"><b>รายวิชา:</b> <span id="p-course-name">-</span></td><td style="text-align: right; width: 20%;"><b>จำนวน:</b> 3 <b>หน่วยกิต</b></td></tr>
+            <tr><td style="text-align: left; width: 35%;"><b>รหัสวิชา:</b> <span id="p-course-id">-</span></td><td style="text-align: left; width: 45%;"><b>รายวิชา:</b> <span id="p-course-name">-</span></td><td style="text-align: right; width: 20%;"><b>จำนวน:</b> <span id="p-credits">3</span> <b>หน่วยกิต</b></td></tr>
             <tr><td style="text-align: left;"><b>ระดับชั้น:</b> <span id="p-class">-</span></td><td style="text-align: left;"><b>ภาคเรียนที่:</b> 1 / 2569</td><td style="text-align: right;"><b>ครูผู้สอน:</b> <span id="p-teacher">-</span></td></tr>
         </table>
         
@@ -320,7 +309,7 @@
         
         let teacherSession = null; let currentCourse = null; let classData = []; let currentDate = new Date().toISOString().split('T')[0];
         let gradeCols = [];
-        let gradeSettings = { preMid: 15, mid: 20, midChoiceMax: 30, midWriteMax: 10, postMid: 15, behave: 10, final: 40, finalChoiceMax: 40, finalWriteMax: 20 };
+        let gradeSettings = { preMid: 15, mid: 20, midChoiceMax: 30, midWriteMax: 10, postMid: 15, behave: 10, final: 40, finalChoiceMax: 40, finalWriteMax: 20, credits: 3 };
 
         function triggerConfetti() {
             var duration = 2 * 1000; var end = Date.now() + duration;
@@ -334,12 +323,10 @@
 
         function checkSession() {
             document.getElementById('date-picker').value = currentDate;
-            
             let savedCreds = JSON.parse(localStorage.getItem('savedQuantumCreds'));
             if(savedCreds) {
                 document.getElementById('login-user').value = savedCreds.u; document.getElementById('login-pass').value = savedCreds.p; document.getElementById('remember-me').checked = true;
             }
-
             teacherSession = JSON.parse(sessionStorage.getItem('portalSession'));
             if(teacherSession) { 
                 let savedCourse = JSON.parse(sessionStorage.getItem('currentCourse'));
@@ -363,7 +350,6 @@
         async function doLogin() {
             const user = document.getElementById('login-user').value; const pass = document.getElementById('login-pass').value; const btn = document.getElementById('btn-login');
             const remember = document.getElementById('remember-me').checked;
-            
             if(!user || !pass) return showToast('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> CONNECTING...'; btn.disabled = true;
             try {
@@ -375,7 +361,7 @@
                     checkSession(); 
                 } 
                 else { showToast(data.message, 'error'); }
-            } catch(e) { alert("⚠️ เชื่อมต่อล้มเหลว ตรวจสอบสิทธิ์ Apps Script\nสาเหตุ: " + e.message); showToast('การเชื่อมต่อถูกปฏิเสธ', 'error'); }
+            } catch(e) { alert("⚠️ เชื่อมต่อล้มเหลว\nสาเหตุ: " + e.message); showToast('การเชื่อมต่อถูกปฏิเสธ', 'error'); }
             btn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> ล็อกอินเข้าสู่ระบบ'; btn.disabled = false;
         }
 
@@ -418,7 +404,14 @@
             classData = JSON.parse(localStorage.getItem(`courseData_${courseObj.courseId}`)) || [];
             gradeCols = JSON.parse(localStorage.getItem(`cols_${courseObj.courseId}`)) || [];
             let savedSet = JSON.parse(localStorage.getItem(`set_${courseObj.courseId}`));
-            if(savedSet) { if(savedSet.midChoiceMax === undefined) { gradeSettings = { preMid: 15, mid: 20, midChoiceMax: 30, midWriteMax: 10, postMid: 15, behave: 10, final: 40, finalChoiceMax: 40, finalWriteMax: 20 }; } else { gradeSettings = savedSet; } }
+            if(savedSet) { 
+                if(savedSet.midChoiceMax === undefined) { 
+                    gradeSettings = { preMid: 15, mid: 20, midChoiceMax: 30, midWriteMax: 10, postMid: 15, behave: 10, final: 40, finalChoiceMax: 40, finalWriteMax: 20, credits: 3 }; 
+                } else { 
+                    gradeSettings = savedSet; 
+                    if(gradeSettings.credits === undefined) gradeSettings.credits = 3;
+                } 
+            }
             showScreen('dashboard'); switchTab('attendance');
             if(classData.length === 0) syncClassData(false); else { renderAll(); syncClassData(true); }
         }
@@ -481,12 +474,12 @@
             if(window.innerWidth < 768) { document.getElementById('app-sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-overlay').classList.add('hidden'); }
         }
 
-        function toggleGradeSettings() { const p = document.getElementById('grade-settings-panel'); if(p.classList.contains('hidden')) { document.getElementById('set-pre').value = gradeSettings.preMid; document.getElementById('set-mid').value = gradeSettings.mid; document.getElementById('set-post').value = gradeSettings.postMid; document.getElementById('set-behave').value = gradeSettings.behave; document.getElementById('set-final').value = gradeSettings.final; document.getElementById('set-midChoiceMax').value = gradeSettings.midChoiceMax; document.getElementById('set-midWriteMax').value = gradeSettings.midWriteMax; document.getElementById('set-finalChoiceMax').value = gradeSettings.finalChoiceMax; document.getElementById('set-finalWriteMax').value = gradeSettings.finalWriteMax; p.classList.remove('hidden'); } else { p.classList.add('hidden'); } }
+        function toggleGradeSettings() { const p = document.getElementById('grade-settings-panel'); if(p.classList.contains('hidden')) { document.getElementById('set-pre').value = gradeSettings.preMid; document.getElementById('set-mid').value = gradeSettings.mid; document.getElementById('set-post').value = gradeSettings.postMid; document.getElementById('set-behave').value = gradeSettings.behave; document.getElementById('set-final').value = gradeSettings.final; document.getElementById('set-midChoiceMax').value = gradeSettings.midChoiceMax; document.getElementById('set-midWriteMax').value = gradeSettings.midWriteMax; document.getElementById('set-finalChoiceMax').value = gradeSettings.finalChoiceMax; document.getElementById('set-finalWriteMax').value = gradeSettings.finalWriteMax; document.getElementById('set-credits').value = gradeSettings.credits || 3; p.classList.remove('hidden'); } else { p.classList.add('hidden'); } }
         
         function saveGradeSettings() { 
             let pr = parseInt(document.getElementById('set-pre').value)||0; let m = parseInt(document.getElementById('set-mid').value)||0; let po = parseInt(document.getElementById('set-post').value)||0; let b = parseInt(document.getElementById('set-behave').value)||0; let f = parseInt(document.getElementById('set-final').value)||0; 
             if((pr + m + po + b + f) !== 100) return alert('ผลรวมสัดส่วน 5 ช่องหลักต้องเท่ากับ 100'); 
-            gradeSettings = { preMid: pr, mid: m, postMid: po, behave: b, final: f, midChoiceMax: parseInt(document.getElementById('set-midChoiceMax').value)||20, midWriteMax: parseInt(document.getElementById('set-midWriteMax').value)||10, finalChoiceMax: parseInt(document.getElementById('set-finalChoiceMax').value)||40, finalWriteMax: parseInt(document.getElementById('set-finalWriteMax').value)||20 }; 
+            gradeSettings = { preMid: pr, mid: m, postMid: po, behave: b, final: f, midChoiceMax: parseInt(document.getElementById('set-midChoiceMax').value)||20, midWriteMax: parseInt(document.getElementById('set-midWriteMax').value)||10, finalChoiceMax: parseInt(document.getElementById('set-finalChoiceMax').value)||40, finalWriteMax: parseInt(document.getElementById('set-finalWriteMax').value)||20, credits: parseInt(document.getElementById('set-credits').value)||3 }; 
             classData.forEach(s => computeStudentTotal(s)); saveDataToLocal(); toggleGradeSettings(); renderAll(); showToast('บันทึกเกณฑ์สอบสำเร็จ'); triggerConfetti();
         }
         
@@ -501,7 +494,7 @@
         
         function markHoliday() { 
             if(classData.length===0) return; 
-            let reason = prompt(`ตั้งวันหยุดคลาสประจำวันที่ ${currentDate}\n\nโปรดระบุสาเหตุการหยุด (เช่น วันแม่, กีฬาสี, ครูลาป่วย):`, "วันหยุดพิเศษ");
+            let reason = prompt(`ตั้งวันหยุดคลาสประจำวันที่ ${currentDate}\n\nโปรดระบุสาเหตุการหยุด:`, "วันหยุดพิเศษ");
             if(reason === null) return; 
             let val = reason.trim() === "" ? "holiday" : "holiday:" + reason.trim();
             classData.forEach(s=>{s.attendance[currentDate] = val;}); 
@@ -526,14 +519,11 @@
 
         function renderAll() {
             if(!currentCourse) return;
-            
             let todayStr = new Date().toISOString().split('T')[0];
             let isEditable = (currentDate === todayStr);
 
-            const btnSave = document.getElementById('btn-save-att');
-            const btnHol = document.getElementById('btn-holiday');
-            const badgeRO = document.getElementById('readonly-badge');
-            const badgeUnsaved = document.getElementById('unsaved-badge');
+            const btnSave = document.getElementById('btn-save-att'); const btnHol = document.getElementById('btn-holiday');
+            const badgeRO = document.getElementById('readonly-badge'); const badgeUnsaved = document.getElementById('unsaved-badge');
             
             if(btnSave) btnSave.style.display = isEditable ? 'flex' : 'none';
             if(btnHol) btnHol.style.display = isEditable ? 'inline-block' : 'none';
@@ -544,12 +534,8 @@
             document.getElementById('stat-total').innerText = classData.length; document.getElementById('stat-present').innerText = p; document.getElementById('stat-absent').innerText = a;
             
             const tAtt = document.getElementById('attendance-tbody'); tAtt.innerHTML = '';
-            
             classData.forEach((s, i) => {
-                let st = s.attendance[currentDate] || ''; 
-                let isHoliday = st.startsWith('holiday');
-                let holReason = isHoliday ? (st.split(':')[1] || 'วันหยุด') : '';
-                
+                let st = s.attendance[currentDate] || ''; let isHoliday = st.startsWith('holiday'); let holReason = isHoliday ? (st.split(':')[1] || 'วันหยุด') : '';
                 let btnP='bg-slate-900 border border-slate-700 text-slate-500', btnL='bg-slate-900 border border-slate-700 text-slate-500', btnA='bg-slate-900 border border-slate-700 text-slate-500';
                 if(st==='present') btnP='bg-emerald-500 text-white border-transparent shadow-[0_0_10px_rgba(16,185,129,0.3)]';
                 if(st==='late') btnL='bg-amber-500 text-white border-transparent shadow-[0_0_10px_rgba(245,158,11,0.3)]';
@@ -569,7 +555,6 @@
                 } else {
                     actionHTML = `<div class="inline-flex gap-1.5"><button onclick="updateAttendance(${i},'present')" class="px-3 py-1 text-xs md:text-sm font-medium rounded-xl transition ${btnP}">มา</button><button onclick="updateAttendance(${i},'late')" class="px-3 py-1 text-xs md:text-sm font-medium rounded-xl transition ${btnL}">สาย</button><button onclick="updateAttendance(${i},'absent')" class="px-3 py-1 text-xs md:text-sm font-medium rounded-xl transition ${btnA}">ขาด</button></div>`;
                 }
-                
                 tAtt.innerHTML += `<tr><td class="font-mono font-medium text-cyan-400 text-xs md:text-sm">${s.id}</td><td class="student-name-td text-xs md:text-sm">${s.name}</td><td>${actionHTML}</td><td class="text-xs md:text-sm font-bold text-center text-slate-300">${pc}%</td></tr>`;
             });
 
@@ -607,6 +592,10 @@
             });
 
             let inTermMax = gradeSettings.preMid + gradeSettings.mid + gradeSettings.postMid + gradeSettings.behave; let finalMax = gradeSettings.final;
+            
+            // อัปเดตหน่วยกิตไดนามิก
+            document.getElementById('p-credits').innerText = gradeSettings.credits || 3;
+
             document.getElementById('print-ratio-text').innerText = `ระหว่างภาค : ปลายภาค = ${inTermMax} : ${finalMax}`;
             document.getElementById('eval-preview-thead').innerHTML = `<tr><th class="p-3 text-center">รหัสนักศึกษา</th><th class="p-3">ชื่อ - นามสกุล</th><th class="p-3 text-center text-cyan-400">ระหว่างภาค (${inTermMax})</th><th class="p-3 text-center text-purple-400">ปลายภาค (${finalMax})</th><th class="p-3 text-center font-bold text-white">รวม (100)</th><th class="p-3 text-center font-bold text-emerald-400">เกรดที่อนุมัติ</th></tr>`;
             document.getElementById('print-thead').innerHTML = `<tr style="background-color:#f3f4f6"><th style="width:7%">เลขที่</th><th style="width:16%">รหัสนักศึกษา</th><th style="width:37%" class="text-left">ชื่อ - นามสกุล</th><th style="width:10%">ระหว่างภาค<br>${inTermMax}</th><th style="width:10%">ปลายภาค<br>${finalMax}</th><th style="width:10%">คะแนนรวม<br>100</th><th style="width:10%">เกรด</th></tr>`;
