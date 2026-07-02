@@ -9,14 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#03050a">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ClassPro">
-    <link rel="apple-touch-icon" href="logo.png">
-
     <style>
         @media screen {
             body { background-color: #060913; font-family: 'Kanit', sans-serif; overflow: hidden; color: #e2e8f0; }
@@ -27,7 +20,6 @@
             .cyber-btn:hover { background: rgba(56, 189, 248, 0.08); color: #38bdf8; border-color: rgba(56, 189, 248, 0.2); box-shadow: 0 0 15px rgba(56, 189, 248, 0.1); transform: translateX(5px); }
             .cyber-active { background: linear-gradient(90deg, rgba(37, 99, 235, 0.25) 0%, rgba(14, 165, 233, 0.05) 100%) !important; color: #38bdf8 !important; font-weight: 700; border-color: rgba(56, 189, 248, 0.4) !important; box-shadow: 0 0 20px rgba(56, 189, 248, 0.15); border-left: 4px solid #38bdf8 !important; }
             .neon-text-cyan { text-shadow: 0 0 10px rgba(6, 182, 212, 0.5); }
-            .neon-text-purple { text-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
             .cyber-input { background: rgba(5, 7, 20, 0.6); border: 1px solid rgba(56, 189, 248, 0.2); color: #f1f5f9; font-weight: 500; border-radius: 12px; transition: all 0.2s ease; }
             .cyber-input:focus { border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.25); background: rgba(5, 7, 20, 0.8); }
             .animate-enter { animation: cyberSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -37,44 +29,36 @@
             .hologram-scanline { position: absolute; left: 0; top: -100%; width: 100%; height: 25%; background: linear-gradient(to bottom, transparent, rgba(34,211,238,0.3), transparent); animation: scanline 3s linear infinite; pointer-events: none; }
             @keyframes scanline { 0% { top: -25%; } 100% { top: 125%; } }
             #toast-container { position: fixed; top: 24px; right: 24px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
-            .toast { background: #090d1a; color: #f1f5f9; border: 1px solid rgba(56, 189, 248, 0.3); border-left: 4px solid #38bdf8; padding: 16px 24px; border-radius: 12px; box-shadow: 0 0 25px rgba(56, 189, 248, 0.15); display: flex; align-items: center; gap: 14px; font-size: 14px; animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+            .toast { background: #090d1a; color: #f1f5f9; border: 1px solid rgba(56, 189, 248, 0.3); border-left: 4px solid #38bdf8; padding: 16px 24px; border-radius: 12px; box-shadow: 0 0 25px rgba(56, 189, 248, 0.15); display: flex; align-items: center; gap: 14px; font-size: 14px; animation: slideInRight 0.3s forwards; }
             @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
             #print-section { display: none; }
             ::-webkit-scrollbar { width: 6px; height: 6px; }
             ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.3); border-radius: 10px; }
             
-            /* 🌟 [ปรับปรุงความสบายตา] ขยายขนาดตัวอักษรของหัวตารางและเนื้อหาตารางให้อ่านง่ายขึ้นเต็มมิติ */
             .pro-table th { background-color: rgba(9, 13, 26, 0.8); color: #38bdf8; font-size: 15px; font-weight: 600; border-bottom: 2px solid rgba(56, 189, 248, 0.3); padding: 14px 10px; text-align: center; }
             .pro-table td { border-bottom: 1px solid rgba(56, 189, 248, 0.08); padding: 12px 8px; vertical-align: middle; text-align: center; background: rgba(15, 23, 42, 0.2); font-size: 15px; }
-            .student-name-td { text-align: left !important; padding-left: 18px !important; color: #f1f5f9; font-weight: 400; font-size: 15px; }
+            .student-name-td { text-align: left !important; padding-left: 18px !important; color: #f1f5f9; font-weight: 400; }
         }
-
         @media print {
             @page { size: A4 portrait; margin: 10mm 12mm; } 
-            body * { visibility: hidden; } 
-            #print-section, #print-section * { visibility: visible; }
+            body * { visibility: hidden; } #print-section, #print-section * { visibility: visible; }
             #print-section { position: absolute; left: 0; top: 0; width: 100%; font-family: 'Sarabun', sans-serif; font-size: 10.5pt; color: #000000; line-height: 1.2; background: white; }
             .print-header-block { text-align: center; margin-bottom: 12px; min-height: 60px; position: relative; }
             .print-header-block img { position: absolute; left: 0; top: 0; width: 60px; height: auto; object-fit: contain; }
-            .print-title { font-weight: bold; font-size: 14pt; padding-top: 2px; }
-            .print-subtitle { font-size: 11.5pt; margin-top: 4px; font-weight: 500; }
-            .info-table { width: 100%; font-size: 10pt; margin-bottom: 8px; border-collapse: collapse; }
-            .info-table td { padding: 2px 0; }
+            .print-title { font-weight: bold; font-size: 14pt; padding-top: 2px; } .print-subtitle { font-size: 11.5pt; margin-top: 4px; font-weight: 500; }
+            .info-table { width: 100%; font-size: 10pt; margin-bottom: 8px; border-collapse: collapse; } .info-table td { padding: 2px 0; }
             .form-table { width: 100%; border-collapse: collapse; margin-top: 4px; margin-bottom: 12px; border: 1px solid #000; }
             .form-table th, .form-table td { border: 1px solid #000000; padding: 2px 4px; text-align: center; font-size: 10pt; color: #000 !important; background: transparent !important; }
-            .form-table td { height: 16px; } 
-            .form-table th { font-weight: bold; background-color: #f3f4f6 !important; padding: 6px 4px; font-size: 10pt; }
+            .form-table th { font-weight: bold; background-color: #f3f4f6 !important; padding: 6px 4px; }
             .text-left { text-align: left !important; padding-left: 8px !important; }
             .summary-box { display: flex; justify-content: space-between; page-break-inside: avoid; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc; }
-            .grade-table { width: 100%; border-collapse: collapse; border: 1px solid #000; margin-top: 5px; }
-            .grade-table th, .grade-table td { border: 1px solid #000000; padding: 3px 5px; text-align: center; font-size: 9.5pt; }
+            .grade-table { width: 100%; border-collapse: collapse; border: 1px solid #000; margin-top: 5px; } .grade-table th, .grade-table td { border: 1px solid #000000; padding: 3px 5px; text-align: center; font-size: 9.5pt; }
             .sig-grid { display: grid; grid-template-columns: 1fr 1fr; row-gap: 20px; column-gap: 25px; text-align: center; margin-top: 10px; font-size: 10pt; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
 </head>
 <body class="h-screen w-full flex" onload="checkSession()">
-
     <div id="toast-container" class="screen-only"></div>
 
     <div id="screen-login" class="h-screen w-full flex items-center justify-center p-4 z-50 fixed inset-0 bg-[#03050a]">
@@ -83,7 +67,6 @@
             <div class="text-center mb-8">
                 <div class="w-16 h-14 bg-gradient-to-br from-cyan-500 to-blue-600 text-white rounded-xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-lg"><i class="fas fa-fingerprint"></i></div>
                 <h1 class="text-3xl font-bold text-white tracking-wide neon-text-cyan">Quantum <span class="text-cyan-400">ClassPro</span></h1>
-                <p class="text-xs text-cyan-400/70 font-light mt-1">ระบบจัดการชั้นเรียนไฮเทค</p>
             </div>
             <div class="space-y-4">
                 <div><label class="block text-sm font-normal text-slate-300 mb-1.5">ID ประจำตัวอาจารย์</label><input type="text" id="login-user" class="w-full cyber-input p-3.5 text-base outline-none"></div>
@@ -96,23 +79,32 @@
             </div>
         </div>
     </div>
-
     <div id="screen-courses" class="hidden h-screen w-full flex-col p-8 z-40 fixed inset-0 bg-[#04060d] overflow-y-auto">
         <div class="max-w-5xl mx-auto w-full pt-8 animate-enter">
-            <div class="flex justify-between items-end mb-10 border-b border-cyan-500/10 pb-6">
+            <div class="flex justify-between items-end mb-8 border-b border-cyan-500/10 pb-6">
                 <div>
                     <h2 class="text-3xl font-semibold text-white tracking-tight flex items-center gap-3">สวัสดี, <span id="welcome-name" class="text-cyan-400 neon-text-cyan">อาจารย์...</span></h2>
                     <p class="text-base text-slate-300 font-light mt-1.5"><i class="fas fa-graduation-cap text-cyan-500 mr-1"></i> วิทยาลัยเทคโนโลยีผดุงเสนาบริหารธุรกิจ</p>
                 </div>
                 <button onclick="handleLogout()" class="px-5 py-2.5 bg-slate-900 border border-rose-500/30 text-rose-400 font-medium rounded-xl hover:bg-rose-500 hover:text-white transition text-sm flex items-center gap-2 shadow-lg"><i class="fas fa-power-off"></i> ออกจากระบบ</button>
             </div>
-            <div class="mb-5 text-slate-300 font-medium text-base flex items-center gap-2"><i class="fas fa-satellite-dish text-cyan-400 animate-pulse"></i> โปรดเลือกรายวิชาที่ต้องการสอน...</div>
-            <div id="course-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-6 pb-20"></div>
+            
+            <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="text-slate-300 font-medium text-base flex items-center gap-2">
+                    <i class="fas fa-satellite-dish text-cyan-400 animate-pulse"></i> โปรดเลือกรายวิชาที่ต้องการสอน...
+                </div>
+                <div class="flex items-center gap-2.5 bg-slate-900/60 px-4 py-2.5 rounded-xl border border-cyan-500/30 shadow-[0_0_10px_rgba(6,182,212,0.1)]">
+                    <input type="checkbox" id="chk-filter-today" checked onchange="renderCourses()" class="w-4 h-4 accent-cyan-500 cursor-pointer">
+                    <label for="chk-filter-today" class="text-sm text-cyan-300 font-medium cursor-pointer select-none">กรองเฉพาะวิชาที่มีสอนวันนี้ (<span id="txt-today-name" class="text-white"></span>)</label>
+                </div>
+            </div>
+            
+            <div id="course-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-6 pb-20"></div>
         </div>
     </div>
+
     <div id="screen-dashboard" class="hidden h-screen w-full flex z-30 fixed inset-0 bg-[#04060d]">
         <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
-
         <aside id="app-sidebar" class="cyber-sidebar w-64 h-screen flex flex-col justify-between shrink-0 fixed md:relative z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
             <div class="p-5 relative">
                 <button onclick="toggleSidebar()" class="md:hidden absolute top-5 right-5 text-slate-400 hover:text-cyan-400 text-xl"><i class="fas fa-times"></i></button>
@@ -126,21 +118,12 @@
                     <button onclick="switchTab('evaluation')" id="btn-evaluation" class="cyber-btn w-full flex items-center gap-3.5 px-4 py-3.5 text-base font-medium"><i class="fas fa-file-contract text-center text-xl w-6"></i><span>พิมพ์ใบ ปพ.</span></button>
                 </nav>
             </div>
-            
             <div class="p-4 border-t border-cyan-500/10 bg-[#020308]">
-                <div class="flex items-center justify-between p-3 rounded-xl border border-cyan-500/10 bg-slate-900/40 relative group cursor-pointer transition-all hover:bg-slate-800" onclick="document.getElementById('avatar-upload').click()" title="คลิกเพื่ออัปโหลด/เปลี่ยนรูปโปรไฟล์">
+                <div class="flex items-center justify-between p-3 rounded-xl border border-cyan-500/10 bg-slate-900/40 relative group cursor-pointer transition-all hover:bg-slate-800" onclick="document.getElementById('avatar-upload').click()" title="อัปโหลดรูปโปรไฟล์">
                     <input type="file" id="avatar-upload" class="hidden" accept="image/*" onchange="handleAvatarUpload(event)">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <div class="relative shrink-0">
-                            <img src="" id="dash-avatar" class="w-11 h-11 rounded-full border border-cyan-500/50 object-cover shadow-[0_0_12px_rgba(6,182,212,0.4)] transition-opacity duration-200 group-hover:opacity-40">
-                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                <i class="fas fa-camera text-white text-sm"></i>
-                            </div>
-                        </div>
-                        <div class="overflow-hidden">
-                            <p class="text-base font-medium text-slate-100 truncate" id="dash-teacher-name">อาจารย์</p>
-                            <p class="text-xs text-cyan-400/80 truncate font-light" id="dash-course-id">CODE</p>
-                        </div>
+                        <div class="relative shrink-0"><img src="" id="dash-avatar" class="w-11 h-11 rounded-full border border-cyan-500/50 object-cover shadow-[0_0_12px_rgba(6,182,212,0.4)] transition-opacity group-hover:opacity-40"><div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100"><i class="fas fa-camera text-white text-sm"></i></div></div>
+                        <div class="overflow-hidden"><p class="text-base font-medium text-slate-100 truncate" id="dash-teacher-name">อาจารย์</p><p class="text-xs text-cyan-400/80 truncate font-light" id="dash-course-id">CODE</p></div>
                     </div>
                 </div>
             </div>
@@ -168,22 +151,31 @@
             <div class="space-y-6 relative z-10">
                 <div id="section-attendance" class="tab-content space-y-6">
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
-                        <div class="cyber-panel p-4 md:p-5 border-l-4 border-l-blue-500 col-span-2 md:col-span-1"><p class="text-slate-400 font-light text-sm mb-1">นักเรียนทั้งหมด</p><h2 class="text-3xl md:text-4xl font-semibold text-white" id="stat-total">0</h2></div>
-                        <div class="cyber-panel p-4 md:p-5 border-l-4 border-l-emerald-500"><p class="text-slate-400 font-light text-sm mb-1">มาวันนี้</p><h2 class="text-3xl md:text-4xl font-semibold text-emerald-400 neon-text-cyan" id="stat-present">0</h2></div>
-                        <div class="cyber-panel p-4 md:p-5 border-l-4 border-l-rose-500"><p class="text-slate-400 font-light text-sm mb-1">ขาดวันนี้</p><h2 class="text-3xl md:text-4xl font-semibold text-rose-400" id="stat-absent">0</h2></div>
+                        <div class="cyber-panel p-4 md:p-5 border-l-4 border-l-blue-500 col-span-2 md:col-span-1"><p class="text-slate-400 font-light text-sm mb-1">จำนวนนักเรียนทั้งหมด</p><h2 class="text-3xl md:text-4xl font-semibold text-white" id="stat-total">0</h2></div>
+                        <div class="cyber-panel p-4 md:p-5 border-l-4 border-l-emerald-500"><p class="text-slate-400 font-light text-sm mb-1">สถิติเข้าเรียนวันนี้ (นับตามคาบ)</p><h2 class="text-3xl md:text-4xl font-semibold text-emerald-400 neon-text-cyan" id="stat-present">0</h2></div>
+                        <div class="cyber-panel p-4 md:p-5 border-l-4 border-l-rose-500"><p class="text-slate-400 font-light text-sm mb-1">สถิติขาดเรียนวันนี้ (นับตามคาบ)</p><h2 class="text-3xl md:text-4xl font-semibold text-rose-400" id="stat-absent">0</h2></div>
                     </div>
                     <div class="cyber-panel overflow-hidden">
-                        <div class="px-4 md:px-6 py-4 md:py-5 border-b border-cyan-500/10 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-[#090d1a]/40 gap-4">
-                            <div class="flex items-center gap-3">
-                                <h3 class="font-medium text-white text-base"><i class="fas fa-user-check mr-2 text-cyan-400"></i> ตารางเช็คชื่อเข้าเรียน</h3>
-                                <div id="readonly-badge" class="hidden bg-rose-500/10 text-rose-400 px-2.5 py-0.5 rounded-md text-xs font-medium border border-rose-500/20"><i class="fas fa-lock mr-1"></i> ดูย้อนหลัง (ระบบล็อก)</div>
+                        <div class="px-4 md:px-6 py-4 md:py-5 border-b border-cyan-500/10 flex flex-col xl:flex-row justify-between items-start xl:items-center bg-[#090d1a]/40 gap-4">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-center gap-3">
+                                    <h3 class="font-medium text-white text-base"><i class="fas fa-user-check mr-2 text-cyan-400"></i> ตารางเช็คชื่อเข้าเรียน</h3>
+                                    <div id="readonly-badge" class="hidden bg-rose-500/10 text-rose-400 px-2.5 py-0.5 rounded-md text-xs font-medium border border-rose-500/20"><i class="fas fa-lock mr-1"></i> ระบบล็อกย้อนหลัง</div>
+                                </div>
+                                <div class="flex items-center gap-1.5 bg-[#050714] p-1.5 rounded-xl border border-cyan-500/30 w-fit">
+                                    <span class="text-xs text-slate-400 px-2"><i class="fas fa-clock text-cyan-500 mr-1"></i> เลือกคาบที่กำลังสอน:</span>
+                                    <button id="btn-p1" onclick="togglePeriod(1)" class="px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all">คาบ 1</button>
+                                    <button id="btn-p2" onclick="togglePeriod(2)" class="px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all">คาบ 2</button>
+                                    <button id="btn-p3" onclick="togglePeriod(3)" class="px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all">คาบ 3</button>
+                                    <span class="text-[10px] text-cyan-400/70 ml-2 hidden sm:inline">(กดเลือกหลายคาบพร้อมกันได้)</span>
+                                </div>
                             </div>
-                            <div class="flex items-center gap-2 md:gap-3 w-full sm:w-auto">
+                            <div class="flex items-center gap-2 md:gap-3 w-full xl:w-auto mt-2 xl:mt-0">
                                 <input type="date" id="date-picker" onchange="changeDate()" class="flex-1 sm:flex-none text-cyan-400 text-sm font-medium bg-[#03050a] border border-cyan-500/30 rounded-xl px-3 py-2 outline-none cursor-pointer">
-                                <button onclick="markHoliday()" class="px-3.5 py-2 bg-slate-900 border border-slate-700 text-slate-300 rounded-xl text-sm font-medium hover:bg-purple-500/20 hover:text-purple-400 transition">วันหยุด</button>
+                                <button onclick="markHoliday()" class="px-3.5 py-2 bg-slate-900 border border-slate-700 text-slate-300 font-medium rounded-xl text-sm hover:bg-purple-500/20 hover:text-purple-400 transition" title="ทำเครื่องหมายวันหยุดในคาบที่เลือก">วันหยุด</button>
                             </div>
                         </div>
-                        <div class="overflow-x-auto pb-4"><table class="w-full text-left whitespace-nowrap pro-table"><thead><tr><th class="p-3 w-28">รหัสประจำตัว</th><th class="p-3 text-left">ชื่อ - นามสกุล นักศึกษา</th><th class="p-3 text-center w-64">สถานะเช็คชื่อ</th><th class="p-3 w-24">มาเรียน</th></tr></thead><tbody id="attendance-tbody"></tbody></table></div>
+                        <div class="overflow-x-auto pb-4"><table class="w-full text-left whitespace-nowrap pro-table"><thead><tr><th class="p-3 w-28">รหัสประจำตัว</th><th class="p-3 text-left">ชื่อ - นามสกุล นักศึกษา</th><th class="p-3 text-center w-64">สถานะการเข้าเรียน (คาบ 1-3)</th><th class="p-3 text-center">อัปเดตสถานะคาบที่เลือก</th><th class="p-3 w-24">สถิติ(%)</th></tr></thead><tbody id="attendance-tbody"></tbody></table></div>
                     </div>
                 </div>
 
@@ -218,7 +210,7 @@
                                     <div><label class="block text-xs text-purple-400 mb-1">ปลาย: เขียน (เต็ม)</label><input type="number" id="set-finalWriteMax" class="w-full p-2 cyber-input text-center text-sm"></div>
                                 </div>
                             </div>
-                            <div class="flex justify-end pt-2"><button onclick="saveGradeSettings()" class="w-full md:w-auto px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl text-sm font-medium shadow-md">บันทึกโครงสร้างเกณฑ์</button></div>
+                            <div class="flex justify-end pt-2"><button onclick="saveGradeSettings()" class="w-full md:w-auto px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl text-sm font-medium shadow-md">บันทึกเกณฑ์คำนวณ</button></div>
                         </div>
                         <div class="overflow-x-auto pb-4"><table class="w-full text-left whitespace-nowrap pro-table"><thead id="grades-thead-tr"></thead><tbody id="grades-tbody"></tbody></table></div>
                     </div>
@@ -228,7 +220,7 @@
                     <div class="cyber-panel overflow-hidden flex flex-col">
                         <div class="px-4 md:px-6 py-4 border-b border-cyan-500/10 flex justify-between items-center bg-[#090d1a]/40">
                             <h3 class="font-medium text-white text-base"><i class="fas fa-eye mr-2 text-cyan-400"></i> พรีวิวเอกสารรายงานผล ปพ.</h3>
-                            <button onclick="window.print()" class="px-4 md:px-6 py-2 bg-gradient-to-r from-slate-900 to-slate-800 border border-cyan-400/30 text-cyan-400 text-sm font-medium rounded-xl shadow-lg"><i class="fas fa-print mr-2"></i> พิมพ์ รายงาน ปพ. (A4)</button>
+                            <button onclick="window.print()" class="px-4 md:px-6 py-2 bg-gradient-to-r from-slate-900 to-slate-800 border border-cyan-400/30 text-cyan-400 text-sm font-medium rounded-xl shadow-lg hover:bg-slate-700 transition"><i class="fas fa-print mr-2"></i> พิมพ์ รายงาน ปพ. (A4)</button>
                         </div>
                         <div class="p-4 md:p-6 bg-[#04060d] overflow-x-auto rounded-xl pb-4"><table class="w-full text-left whitespace-nowrap text-sm pro-table"><thead id="eval-preview-thead"></thead><tbody id="eval-preview-tbody" class="divide-y divide-slate-800"></tbody></table></div>
                     </div>
@@ -266,16 +258,20 @@
     </div>
 
     <script>
-        // 🔗 ⚠️ อาจารย์อย่าลืมนำลิงก์ Web App ใหม่ล่าสุดที่ได้จากการ Deploy ใน Apps Script หลังบ้านมาแปะในช่องนี้ครับ!
-        const API_URL = "https://script.google.com/macros/s/AKfycby175ol_Hs1J7wwHvKWbcWA54lpRFpy9l-hpmSF_AjmTqSUQifZnDBr0R-9iuNwRTjH/exec"; 
+        // 🔗 ⚠️ อาจารย์นำลิงก์ Web App ใหม่ล่าสุดจาก Google Apps Script มาวางตรงนี้ครับ
+        const API_URL = "https://script.google.com/macros/s/AKfycbwpG1nAcYerT7vTHnXg47e3aHJ3ayJu5ZRvoouBjUfpaxuijcns7S0sNDIAd7n7tWfl/exec"; 
         
         let teacherSession = null; let currentCourse = null; let classData = []; let currentDate = new Date().toISOString().split('T')[0];
-        let gradeCols = [];
+        let gradeCols = []; let allCoursesData = [];
         let gradeSettings = { preMid: 15, mid: 20, midChoiceMax: 30, midWriteMax: 10, postMid: 15, behave: 10, final: 40, finalChoiceMax: 40, finalWriteMax: 20, credits: 3 };
+        
+        // 🌟 ตัวแปรระบบเลือกคาบ และวันในสัปดาห์
+        let selectedPeriods = [1]; 
+        const thaiDays = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
 
         function triggerConfetti() {
             var duration = 2 * 1000; var end = Date.now() + duration;
-            (function frame() { confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#06b6d4', '#3b82f6', '#10b981'] }); confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#06b6d4', '#3b82f6', '#10b981'] }); if (Date.now() < end) { requestAnimationFrame(frame); } }());
+            (function frame() { confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#06b6d4', '#3b82f6', '#10b981'] }); confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#06b6d4', '#3b82f6', '#10b981'] }); if (Date.now() < end) requestAnimationFrame(frame); }());
         }
 
         function toggleSidebar() { document.getElementById('app-sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-overlay').classList.toggle('hidden'); }
@@ -293,17 +289,17 @@
                 badge.className = 'px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold shadow-[0_0_10px_rgba(16,185,129,0.2)] transition-all duration-300';
                 badge.innerHTML = '<i class="fas fa-check-circle mr-1.5"></i> ข้อมูลอัปเดตล่าสุด';
                 btn.innerHTML = '<i class="fas fa-cloud-check"></i> ซิงค์ข้อมูลแล้ว';
-                btn.className = 'px-3 py-2 bg-emerald-900/40 border border-emerald-500/30 text-emerald-400 text-sm font-medium rounded-xl shadow-lg flex items-center justify-center gap-2 cursor-default flex-[2] sm:flex-none';
+                btn.className = 'px-4 py-2.5 bg-emerald-900/40 border border-emerald-500/30 text-emerald-400 text-sm font-medium rounded-xl shadow-lg flex items-center justify-center gap-2 cursor-default flex-[2] sm:flex-none';
             } else if (state === 'unsaved') {
                 badge.className = 'px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full text-xs font-bold shadow-[0_0_10px_rgba(245,158,11,0.2)] animate-pulse transition-all duration-300';
                 badge.innerHTML = '<i class="fas fa-exclamation-triangle mr-1.5"></i> รอการบันทึก...';
                 btn.innerHTML = '<i class="fas fa-cloud-upload-alt animate-bounce"></i> บันทึกลง Cloud ด่วน';
-                btn.className = 'px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-medium rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.4)] flex items-center justify-center gap-2 hover:-translate-y-1 transition transform flex-[2] sm:flex-none cursor-pointer';
+                btn.className = 'px-4 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-medium rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.4)] flex items-center justify-center gap-2 hover:-translate-y-1 transition transform flex-[2] sm:flex-none cursor-pointer';
             } else if (state === 'saving') {
                 badge.className = 'px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full text-xs font-bold shadow-[0_0_10px_rgba(59,130,246,0.2)] transition-all duration-300';
                 badge.innerHTML = '<i class="fas fa-spinner fa-spin mr-1.5"></i> กำลังอัปโหลด...';
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังบันทึก...';
-                btn.className = 'px-3 py-2 bg-blue-900/50 border border-blue-500/30 text-blue-400 text-sm font-medium rounded-xl shadow-lg flex items-center justify-center gap-2 cursor-wait flex-[2] sm:flex-none';
+                btn.className = 'px-4 py-2.5 bg-blue-900/50 border border-blue-500/30 text-blue-400 text-sm font-medium rounded-xl shadow-lg flex items-center justify-center gap-2 cursor-wait flex-[2] sm:flex-none';
             }
         }
 
@@ -325,12 +321,11 @@
             try {
                 const res = await fetch(`${API_URL}?action=login&user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`); const data = await res.json();
                 if(data.status === 'success') { 
-                    teacherSession = { id: data.teacherId, fullName: data.fullName, avatar: data.avatar }; 
-                    sessionStorage.setItem('portalSession', JSON.stringify(teacherSession)); 
+                    teacherSession = { id: data.teacherId, fullName: data.fullName, avatar: data.avatar }; sessionStorage.setItem('portalSession', JSON.stringify(teacherSession)); 
                     if(document.getElementById('remember-me').checked) localStorage.setItem('savedQuantumCreds', JSON.stringify({u: user, p: pass})); else localStorage.removeItem('savedQuantumCreds');
                     checkSession(); 
                 } else showToast(data.message, 'error');
-            } catch(e) { alert("⚠️ เชื่อมต่อล้มเหลว ตรวจสอบลิงก์ API_URL หรือการตั้งสิทธิ์ Deploy Anyone"); }
+            } catch(e) { alert("⚠️ ล็อกอินล้มเหลว ตรวจสอบลิงก์ API_URL หรือ Deploy Anyone"); }
             btn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> ล็อกอินเข้าสู่ระบบ'; btn.disabled = false;
         }
 
@@ -338,50 +333,76 @@
 
         async function handleAvatarUpload(event) {
             const file = event.target.files[0]; if (!file) return;
-            if (file.size > 2 * 1024 * 1024) return alert("ขนาดไฟล์ใหญ่เกินไป (จำกัดสูงสุด 2MB)");
             const reader = new FileReader();
-            reader.onload = async function(e) {
-                const base64Str = e.target.result.split(',')[1]; const mimeType = file.type;
-                showToast('กำลังอัปโหลดรูปโปรไฟล์เข้าสู่ระบบ Cloud...', 'info');
-                document.getElementById('dash-avatar').style.opacity = '0.3';
-                try {
-                    const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'uploadAvatar', teacherId: teacherSession.id, image: base64Str, mimeType: mimeType }) });
-                    const data = await res.json();
-                    if (data.status === 'success') {
-                        teacherSession.avatar = data.avatarUrl; sessionStorage.setItem('portalSession', JSON.stringify(teacherSession));
-                        document.getElementById('dash-avatar').src = data.avatarUrl; showToast('เปลี่ยนรูปโปรไฟล์สำเร็จเสร็จสิ้น!', 'success');
-                    } else { alert("อัปโหลดรูปภาพล้มเหลว: " + data.message); }
-                } catch (err) { alert("การเชื่อมต่อขัดข้อง ไม่สามารถประมวลผลรูปได้"); }
-                document.getElementById('dash-avatar').style.opacity = '1'; event.target.value = '';
-            };
-            reader.readAsDataURL(file);
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = async function() {
+                    const canvas = document.createElement('canvas'); const MAX_SIZE = 200;
+                    let width = img.width; let height = img.height;
+                    if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
+                    else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
+                    canvas.width = width; canvas.height = height; const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.85);
+                    
+                    showToast('กำลังฝังภาพระบบโปรไฟล์ตรงเข้า Cloud...', 'info'); document.getElementById('dash-avatar').style.opacity = '0.3';
+                    try {
+                        const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'uploadAvatar', teacherId: teacherSession.id, image: compressedBase64 }) });
+                        const data = await res.json();
+                        if (data.status === 'success') {
+                            teacherSession.avatar = data.avatarUrl; sessionStorage.setItem('portalSession', JSON.stringify(teacherSession));
+                            document.getElementById('dash-avatar').src = data.avatarUrl; showToast('ตั้งค่าโปรไฟล์สำเร็จ 100%!', 'success');
+                        } else alert("ล้มเหลว: " + data.message);
+                    } catch (err) { alert("เครือข่ายขัดข้อง ไม่สามารถประมวลผลรูปได้"); }
+                    document.getElementById('dash-avatar').style.opacity = '1'; event.target.value = '';
+                }; img.src = e.target.result;
+            }; reader.readAsDataURL(file);
         }
 
+        // 🌟 ระบบดึงรายวิชา + กรองตามวันสอนปัจจุบัน
         async function fetchCourses() {
             const grid = document.getElementById('course-grid'); grid.innerHTML = '<p class="text-cyan-400 col-span-3 text-center py-10 font-medium"><i class="fas fa-spinner fa-spin text-2xl mb-3 block"></i> LOADING CHANNELS...</p>';
             try {
                 const res = await fetch(`${API_URL}?action=getCourses&teacherId=${teacherSession.id}`); const data = await res.json();
-                if(data.status === 'success') {
-                    grid.innerHTML = ''; if(data.data.length === 0) return grid.innerHTML = '<p class="text-rose-400 text-center col-span-3">ไม่พบพิกัดวิชาสอน</p>';
-                    data.data.forEach((c, i) => {
-                        let delay = i * 0.15; 
-                        grid.innerHTML += `<div class="relative flex flex-col items-center group cursor-pointer animate-hologram" style="animation-delay: ${delay}s;" onclick='enterCourse(${JSON.stringify(c)})'><div class="absolute bottom-0 w-[120%] h-full bg-gradient-to-t from-cyan-400/30 via-cyan-400/5 to-transparent pointer-events-none z-0" style="clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%);"></div><div class="absolute bottom-[-5px] w-24 h-2.5 bg-white rounded-full shadow-[0_0_25px_12px_#06b6d4] z-0 blur-[2px]"></div><div class="cyber-panel p-7 w-full z-10 group-hover:-translate-y-4 transition-transform duration-300 border border-cyan-400/50 shadow-[0_0_25px_rgba(6,182,212,0.3)] relative overflow-hidden bg-[#060913]/90"><div class="hologram-scanline"></div><span class="text-xs font-mono font-medium text-cyan-900 bg-cyan-400 px-3 py-1 rounded-md shadow-[0_0_10px_rgba(34,211,238,0.5)]">${c.courseId}</span><h3 class="font-semibold text-white text-lg mt-4 group-hover:text-cyan-300 transition truncate neon-text-cyan">${c.courseName}</h3><p class="text-sm text-slate-400 mt-2 font-light"><i class="fas fa-users mr-1.5 text-cyan-500"></i> ระดับชั้น: <span class="text-slate-200 font-medium">${c.classLevel}</span></p></div></div>`;
-                    });
-                }
+                if(data.status === 'success') { allCoursesData = data.data; renderCourses(); }
             } catch(e) { grid.innerHTML = '<p class="text-red-400 text-center col-span-3">ขัดข้องทางเครือข่ายวิชา</p>'; }
+        }
+
+        function renderCourses() {
+            const grid = document.getElementById('course-grid'); grid.innerHTML = '';
+            if(allCoursesData.length === 0) return grid.innerHTML = '<p class="text-rose-400 text-center col-span-3">ไม่พบพิกัดวิชาสอน</p>';
+            
+            let todayStr = thaiDays[new Date().getDay()]; // ดึงชื่อวันปัจจุบันภาษาไทย
+            document.getElementById('txt-today-name').innerText = todayStr;
+            let filterTodayOnly = document.getElementById('chk-filter-today').checked;
+            
+            let displayCourses = allCoursesData;
+            if(filterTodayOnly) {
+                displayCourses = allCoursesData.filter(c => {
+                    if(!c.dayAvailable) return true; // ถ้าแอดมินไม่ได้ใส่วันมาให้ โชว์ไว้ก่อนกันเหนียว
+                    return c.dayAvailable.includes(todayStr);
+                });
+            }
+            
+            if(displayCourses.length === 0) {
+                grid.innerHTML = `<div class="col-span-3 text-center py-10"><p class="text-amber-400 text-lg mb-2">ไม่มีตารางสอนในวันนี้ (${todayStr})</p><button onclick="document.getElementById('chk-filter-today').click()" class="text-cyan-400 underline hover:text-cyan-300 text-sm transition">คลิกที่นี่เพื่อแสดงรายวิชาทั้งหมด</button></div>`;
+                return;
+            }
+
+            displayCourses.forEach((c, i) => {
+                let delay = i * 0.15; 
+                grid.innerHTML += `<div class="relative flex flex-col items-center group cursor-pointer animate-hologram" style="animation-delay: ${delay}s;" onclick='enterCourse(${JSON.stringify(c)})'><div class="absolute bottom-0 w-[120%] h-full bg-gradient-to-t from-cyan-400/30 via-cyan-400/5 to-transparent pointer-events-none z-0" style="clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%);"></div><div class="absolute bottom-[-5px] w-24 h-2.5 bg-white rounded-full shadow-[0_0_25px_12px_#06b6d4] z-0 blur-[2px]"></div><div class="cyber-panel p-7 w-full z-10 group-hover:-translate-y-4 transition-transform duration-300 border border-cyan-400/50 shadow-[0_0_25px_rgba(6,182,212,0.3)] relative overflow-hidden bg-[#060913]/90"><div class="hologram-scanline"></div><span class="text-xs font-mono font-medium text-cyan-900 bg-cyan-400 px-3 py-1 rounded-md shadow-[0_0_10px_rgba(34,211,238,0.5)]">${c.courseId}</span><h3 class="font-semibold text-white text-lg mt-4 group-hover:text-cyan-300 transition truncate neon-text-cyan">${c.courseName}</h3><p class="text-sm text-slate-400 mt-2 font-light"><i class="fas fa-users mr-1.5 text-cyan-500"></i> ระดับชั้น: <span class="text-slate-200 font-medium">${c.classLevel}</span></p></div></div>`;
+            });
         }
 
         async function enterCourse(courseObj) {
             currentCourse = courseObj; sessionStorage.setItem('currentCourse', JSON.stringify(courseObj));
             document.getElementById('dash-course-name').innerText = courseObj.courseName; document.getElementById('dash-class-level').innerText = courseObj.classLevel;
             document.getElementById('dash-course-id').innerText = courseObj.courseId; document.getElementById('dash-teacher-name').innerText = teacherSession.fullName;
-            
             let avatarImg = teacherSession.avatar ? teacherSession.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(teacherSession.fullName)}&background=0e7490&color=fff&bold=true`;
             document.getElementById('dash-avatar').src = avatarImg;
-
             document.getElementById('p-course-id').innerText = courseObj.courseId; document.getElementById('p-course-name').innerText = courseObj.courseName; document.getElementById('p-class').innerText = courseObj.classLevel; document.getElementById('p-teacher').innerText = teacherSession.fullName; document.getElementById('p-sig-teacher').innerText = `( ${teacherSession.fullName} )`;
 
-            showScreen('dashboard'); switchTab('attendance'); updateSyncStatus('saving'); showToast('ซิงค์ข้อมูล Cloud...', 'info');
+            showScreen('dashboard'); switchTab('attendance'); updateSyncStatus('saving'); showToast('ดึงข้อมูลระบบจากคลาวด์...', 'info');
 
             try {
                 let res = await fetch(`${API_URL}?action=loadCourseData&courseId=${courseObj.courseId}&courseName=${encodeURIComponent(courseObj.courseName)}&classLevel=${encodeURIComponent(courseObj.classLevel)}`);
@@ -389,6 +410,15 @@
                 if (result.status === "success" && result.data) {
                     classData = result.data.classData || []; gradeCols = result.data.gradeCols || []; gradeSettings = result.data.gradeSettings || gradeSettings;
                     if(gradeSettings.credits === undefined) gradeSettings.credits = 3;
+                    
+                    // 🌟 ระบบย้ายข้อมูลเช็คชื่อแบบเก่า ให้อ่านระบบแยกคาบ (Compatibility Migration)
+                    classData.forEach(s => {
+                        if (!s.attendance) s.attendance = {};
+                        for (let d in s.attendance) {
+                            if (typeof s.attendance[d] === 'string') { s.attendance[d] = { p1: s.attendance[d], p2: '', p3: '' }; }
+                        }
+                    });
+                    
                     renderAll(); updateSyncStatus('synced'); showToast('ซิงค์ข้อมูลสำเร็จ 🚀');
                 } else { classData = []; gradeCols = []; await syncClassData(true); }
             } catch (err) { await syncClassData(true); }
@@ -399,9 +429,9 @@
             try {
                 let res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "saveCourseData", courseId: currentCourse.courseId, courseName: currentCourse.courseName, classLevel: currentCourse.classLevel, payload: { classData: classData, gradeCols: gradeCols, gradeSettings: gradeSettings } }) });
                 let result = await res.json();
-                if(result.status === "success") { updateSyncStatus('synced'); showToast('อัปโหลดเสร็จสมบูรณ์ 🔒'); triggerConfetti(); } 
+                if(result.status === "success") { updateSyncStatus('synced'); showToast('จัดเก็บลง Google Drive 100% 🔒'); triggerConfetti(); } 
                 else { updateSyncStatus('unsaved'); alert("ล้มเหลว: " + result.message); }
-            } catch (err) { updateSyncStatus('unsaved'); alert("การส่งข้อมูลขัดข้อง ตรวจสอบสิทธิ์ Drive"); }
+            } catch (err) { updateSyncStatus('unsaved'); alert("การส่งข้อมูลขัดข้อง ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต"); }
         }
 
         function backToCourses() { sessionStorage.removeItem('currentCourse'); showScreen('courses'); fetchCourses(); }
@@ -422,7 +452,7 @@
             } catch(e) { updateSyncStatus('unsaved'); }
         }
 
-        function clearData() { if(confirm('สลายนิวเคลียสคะแนนและรายชื่อทั้งหมด?')) { classData = []; renderAll(); updateSyncStatus('unsaved'); showToast('เคลียร์ค่าว่างเปล่า (ต้องเซฟขึ้นคลาวด์เพื่อยืนยัน)'); } }
+        function clearData() { if(confirm('สลายนิวเคลียสคะแนนและรายชื่อทั้งหมด?')) { classData = []; renderAll(); updateSyncStatus('unsaved'); showToast('ล้างข้อมูลสำเร็จ (รอเซฟขึ้นคลาวด์)'); } }
 
         function computeStudentTotal(s) {
             let preCols = gradeCols.filter(c => c.period === 'pre'); let maxPre = preCols.reduce((sum, c) => sum + c.max, 0); let sumPre = preCols.reduce((sum, c) => sum + (s.scores[c.id] || 0), 0);
@@ -435,32 +465,67 @@
             s.scoreFinal = finalRawMax > 0 ? Math.round((finalRawSum / finalRawMax) * gradeSettings.final) : 0; if(s.scoreFinal > gradeSettings.final) s.scoreFinal = gradeSettings.final;
             s.scoreInTerm = s.scaledPre + s.scoreMid + s.scaledPost + (s.scoreBehave || 0); s.total = s.scoreInTerm + s.scoreFinal; if(s.total > 100) s.total = 100; s.grade = calculateGrade(s.total);
         }
-
         function calculateGrade(t) { if(t>=80) return '4'; if(t>=75) return '3.5'; if(t>=70) return '3'; if(t>=65) return '2.5'; if(t>=60) return '2'; if(t>=55) return '1.5'; if(t>=50) return '1'; if(t>0) return '0'; return '-'; }
+        
+        // 🌟 ระบบเปิดปิดคาบเรียน (Toggle Multi-Period)
+        function togglePeriod(p) {
+            if(selectedPeriods.includes(p)) {
+                if(selectedPeriods.length > 1) selectedPeriods = selectedPeriods.filter(x => x !== p); // ห้ามปลดออกจนหมด ต้องมีอย่างน้อย 1 คาบ
+            } else selectedPeriods.push(p);
+            renderAll();
+        }
+
+        // 🌟 ระบบบันทึกเวลาเรียนแบบควบคาบ
+        function updateAttendance(idx, status) { 
+            let att = classData[idx].attendance[currentDate] || {p1:'', p2:'', p3:''};
+            if(typeof att === 'string') att = {p1: att, p2: '', p3: ''}; // สำรองข้อมูลเก่า
+            
+            selectedPeriods.forEach(p => { att['p'+p] = status; }); // ยิงสถานะเข้าทุกคาบที่เลือก
+            classData[idx].attendance[currentDate] = att;
+            
+            updateSyncStatus('unsaved'); renderAll(); 
+        }
+
+        function markHoliday() { 
+            if(classData.length===0) return; let r = prompt(`ระบุสาเหตุการหยุด (มีผลเฉพาะคาบที่เลือก):`, "วันหยุดพิเศษ"); if(r === null) return; 
+            let val = r.trim() === "" ? "holiday" : "holiday:" + r.trim(); 
+            classData.forEach(s=>{
+                let att = s.attendance[currentDate] || {p1:'', p2:'', p3:''};
+                if(typeof att === 'string') att = {p1: att, p2: '', p3: ''};
+                selectedPeriods.forEach(p => { att['p'+p] = val; });
+                s.attendance[currentDate] = att;
+            }); 
+            updateSyncStatus('unsaved'); renderAll(); 
+        }
+
+        function changeDate() { currentDate = document.getElementById('date-picker').value; renderAll(); }
         function switchTab(tabId) { document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden')); document.querySelectorAll('.cyber-btn').forEach(el => el.classList.remove('cyber-active')); document.getElementById('section-' + tabId).classList.remove('hidden'); document.getElementById('btn-' + tabId).classList.add('cyber-active'); if(window.innerWidth < 768) { toggleSidebar(); } }
         function toggleGradeSettings() { const p = document.getElementById('grade-settings-panel'); if(p.classList.contains('hidden')) { document.getElementById('set-pre').value = gradeSettings.preMid; document.getElementById('set-mid').value = gradeSettings.mid; document.getElementById('set-post').value = gradeSettings.postMid; document.getElementById('set-behave').value = gradeSettings.behave; document.getElementById('set-final').value = gradeSettings.final; document.getElementById('set-midChoiceMax').value = gradeSettings.midChoiceMax; document.getElementById('set-midWriteMax').value = gradeSettings.midWriteMax; document.getElementById('set-finalChoiceMax').value = gradeSettings.finalChoiceMax; document.getElementById('set-finalWriteMax').value = gradeSettings.finalWriteMax; document.getElementById('set-credits').value = gradeSettings.credits || 3; p.classList.remove('hidden'); } else { p.classList.add('hidden'); } }
-        
         function saveGradeSettings() { 
             let pr = parseInt(document.getElementById('set-pre').value)||0; let m = parseInt(document.getElementById('set-mid').value)||0; let po = parseInt(document.getElementById('set-post').value)||0; let b = parseInt(document.getElementById('set-behave').value)||0; let f = parseInt(document.getElementById('set-final').value)||0; 
             let sum = pr + m + po + b + f; if(sum !== 100) return alert('รวมสัดส่วน 5 ช่องต้องเท่ากับ 100 พอดีครับ\n(ตอนนี้รวมได้ ' + sum + ' คะแนน)'); 
             gradeSettings = { preMid: pr, mid: m, postMid: po, behave: b, final: f, midChoiceMax: parseInt(document.getElementById('set-midChoiceMax').value)||0, midWriteMax: parseInt(document.getElementById('set-midWriteMax').value)||0, finalChoiceMax: parseInt(document.getElementById('set-finalChoiceMax').value)||0, finalWriteMax: parseInt(document.getElementById('set-finalWriteMax').value)||0, credits: parseInt(document.getElementById('set-credits').value)||3 }; 
-            classData.forEach(s => computeStudentTotal(s)); updateSyncStatus('unsaved'); toggleGradeSettings(); renderAll(); showToast('เปลี่ยนเกณฑ์แล้ว (อย่าลืมกดเซฟ Cloud)');
+            classData.forEach(s => computeStudentTotal(s)); updateSyncStatus('unsaved'); toggleGradeSettings(); renderAll(); showToast('บันทึกเกณฑ์ (อย่าลืมเซฟ Cloud ด้วยนะครับ)');
         }
-        
         function addGradeColumn(period) { const name = prompt(`ชื่อชิ้นงานย่อย:`); if(!name) return; const max = prompt(`คะแนนเต็ม:`); if(!max||isNaN(max)) return; const newId = 'col_'+Date.now(); gradeCols.push({id: newId, name: name, max: parseInt(max), period: period}); classData.forEach(s => { if(!s.scores) s.scores={}; s.scores[newId]=0; computeStudentTotal(s); }); updateSyncStatus('unsaved'); renderAll(); }
         function removeGradeColumn(colId) { if(!confirm('ลบช่องนี้?')) return; gradeCols = gradeCols.filter(c => c.id !== colId); classData.forEach(s => { delete s.scores[colId]; computeStudentTotal(s); }); updateSyncStatus('unsaved'); renderAll(); }
         function updateCustomScore(idx, colId, val, max) { let n = parseFloat(val)||0; if(n>max) n=max; classData[idx].scores[colId] = n; computeStudentTotal(classData[idx]); updateSyncStatus('unsaved'); renderAll(); }
         function updateLockedScore(idx, field, val, max) { let n = parseFloat(val)||0; if(n>max) n=max; classData[idx][field] = n; computeStudentTotal(classData[idx]); updateSyncStatus('unsaved'); renderAll(); }
-        function updateAttendance(idx, status) { classData[idx].attendance[currentDate] = status; updateSyncStatus('unsaved'); renderAll(); }
-        function changeDate() { currentDate = document.getElementById('date-picker').value; renderAll(); }
-        function markHoliday() { if(classData.length===0) return; let r = prompt(`ระบุสาเหตุ:`, "วันหยุดพิเศษ"); if(r === null) return; let val = r.trim() === "" ? "holiday" : "holiday:" + r.trim(); classData.forEach(s=>{s.attendance[currentDate] = val;}); updateSyncStatus('unsaved'); renderAll(); }
 
+        // 🌟 อัปเกรดระบบสรุป Excel ให้คิดตามคาบเป๊ะๆ
         function exportToExcel() {
             if(classData.length === 0) return;
             const exportData = classData.map((s, idx) => {
                 let rData = { 'ลำดับ': idx + 1, 'รหัส': s.id, 'ชื่อ-นามสกุล': s.name };
-                let p=0, l=0, a=0, t=0; for(let d in s.attendance) { let st = s.attendance[d]; if(st && !st.startsWith('holiday')) { t++; if(st === 'present') p++; if(st === 'late') l++; if(st === 'absent') a++; } }
-                rData['คาบเรียนทั้งหมด'] = t; rData['มาเรียน (ครั้ง)'] = p; rData['สาย (ครั้ง)'] = l; rData['ขาดเรียน (ครั้ง)'] = a; rData['เปอร์เซ็นต์เข้าเรียน'] = (t === 0 ? 0 : Math.round(((p + l) / t) * 100)) + '%';
+                let p=0, l=0, a=0, t=0; 
+                for(let d in s.attendance) { 
+                    let att = s.attendance[d]; if(typeof att === 'string') att = {p1: att, p2: '', p3: ''};
+                    ['p1','p2','p3'].forEach(period => {
+                        let st = att[period];
+                        if(st && !st.startsWith('holiday')) { t++; if(st === 'present') p++; if(st === 'late') l++; if(st === 'absent') a++; }
+                    });
+                }
+                rData['คาบเรียนทั้งหมด'] = t; rData['มาเรียน (คาบ)'] = p; rData['สาย (คาบ)'] = l; rData['ขาดเรียน (คาบ)'] = a; rData['เปอร์เซ็นต์เข้าเรียน'] = (t === 0 ? 0 : Math.round(((p + l) / t) * 100)) + '%';
                 gradeCols.filter(c=>c.period==='pre').forEach(c => { rData[`${c.name} (ดิบ${c.max})`] = s.scores[c.id] || 0; });
                 rData[`รวมก่อนกลางภาค (${gradeSettings.preMid})`] = s.scaledPre; rData[`กลางภาค ข้อกา`] = s.midChoice || 0; rData[`กลางภาค ข้อเขียน`] = s.midWrite || 0; rData[`รวมกลางภาค (${gradeSettings.mid})`] = s.scoreMid;
                 gradeCols.filter(c=>c.period==='post').forEach(c => { rData[`${c.name} (ดิบ${c.max})`] = s.scores[c.id] || 0; });
@@ -471,32 +536,61 @@
             const ws = XLSX.utils.json_to_sheet(exportData); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "สรุปผลสัมฤทธิ์"); XLSX.writeFile(wb, `รายงานผล_${currentCourse.courseId}.xlsx`);
         }
 
-        // 🌟 [ขยายความสบายตา] ปรับขนาดฟอนต์ภายในกล่อง Render แบบฟอร์มรายชื่อและช่องกรอกเลขคะแนนดิบทั้งหมดให้ใหญ่ชัดขึ้น
+        function getBubble(pNum, status) {
+            let bg = 'bg-slate-800 border border-slate-700 text-slate-500';
+            if(status === 'present') bg = 'bg-emerald-500 text-white shadow-[0_0_10px_rgba(16,185,129,0.5)] border-transparent';
+            if(status === 'late') bg = 'bg-amber-500 text-white shadow-[0_0_10px_rgba(245,158,11,0.5)] border-transparent';
+            if(status === 'absent') bg = 'bg-rose-500 text-white shadow-[0_0_10px_rgba(239,68,68,0.5)] border-transparent';
+            if(status && status.startsWith('holiday')) bg = 'bg-purple-500 text-white shadow-[0_0_10px_rgba(168,85,247,0.5)] border-transparent';
+            return `<div class="flex flex-col items-center"><span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${bg}">${pNum}</span></div>`;
+        }
+
         function renderAll() {
             if(!currentCourse) return; let isEditable = (currentDate === new Date().toISOString().split('T')[0]);
             document.getElementById('readonly-badge').classList.toggle('hidden', isEditable);
 
-            let p=0, a=0; classData.forEach(s => { let st = s.attendance[currentDate]; if(st && (st==='present'||st==='late')) p++; if(st==='absent') a++; });
+            // 🌟 อัปเดตสีปุ่มเลือกคาบด้านบนตาราง
+            [1, 2, 3].forEach(pNum => {
+                let btn = document.getElementById('btn-p' + pNum);
+                if(selectedPeriods.includes(pNum)) btn.className = "px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all bg-cyan-600 text-white shadow-[0_0_10px_rgba(6,182,212,0.5)]";
+                else btn.className = "px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all bg-[#080d1e] text-slate-500 hover:text-slate-300 border border-slate-700/50";
+            });
+
+            // คำนวณสถิติตามคาบเรียน (นับรวมทุกคาบที่สอนในวันนี้)
+            let p=0, a=0; 
+            classData.forEach(s => { 
+                let att = s.attendance[currentDate];
+                if(att && typeof att !== 'string') {
+                    let isP = false, isA = false;
+                    selectedPeriods.forEach(period => {
+                        let st = att['p'+period];
+                        if(st === 'present' || st === 'late') isP = true;
+                        if(st === 'absent') isA = true;
+                    });
+                    if(isP) p++; else if(isA) a++; // นับรวมเด็กที่มาอย่างน้อย 1 คาบที่เลือก
+                }
+            });
             document.getElementById('stat-total').innerText = classData.length; document.getElementById('stat-present').innerText = p; document.getElementById('stat-absent').innerText = a;
             
             const tAtt = document.getElementById('attendance-tbody'); tAtt.innerHTML = '';
             classData.forEach((s, i) => {
-                let st = s.attendance[currentDate] || ''; let isHol = st.startsWith('holiday'); let holReason = isHol ? (st.split(':')[1] || 'วันหยุด') : '';
-                let btnP='bg-slate-900 border border-slate-700 text-slate-400', btnL='bg-slate-900 border border-slate-700 text-slate-400', btnA='bg-slate-900 border border-slate-700 text-slate-400';
-                if(st==='present') btnP='bg-emerald-500 text-white shadow-[0_0_10px_rgba(16,185,129,0.3)]'; if(st==='late') btnL='bg-amber-500 text-white shadow-[0_0_10px_rgba(245,158,11,0.3)]'; if(st==='absent') btnA='bg-rose-500 text-white shadow-[0_0_10px_rgba(239,68,68,0.3)]';
-                let pl=0, td=0; for(let d in s.attendance){ let x=s.attendance[d]; if(x && !x.startsWith('holiday')) { td++; if(x==='present'||x==='late') pl++; } }
+                let att = s.attendance[currentDate] || {p1:'', p2:'', p3:''};
+                if(typeof att === 'string') att = {p1: att, p2: '', p3: ''};
+
+                let pl=0, td=0; 
+                for(let d in s.attendance){ 
+                    let dx = s.attendance[d]; if(typeof dx === 'string') dx = {p1: dx, p2:'', p3:''};
+                    ['p1','p2','p3'].forEach(px => { let vx = dx[px]; if(vx && !vx.startsWith('holiday')) { td++; if(vx==='present'||vx==='late') pl++; } });
+                }
                 let pc = td===0 ? 0 : Math.round((pl/td)*100);
                 
-                let actionHTML = '';
-                if (isHol) actionHTML = `<span class="text-purple-400 font-medium bg-purple-500/10 border border-purple-500/20 px-3 py-1.5 rounded-xl text-sm"><i class="fas fa-bed mr-1.5"></i>หยุด: ${holReason}</span>`;
-                else if (!isEditable) {
-                    if(st==='present') actionHTML = `<span class="text-emerald-400 font-medium bg-emerald-500/10 px-4 py-2 rounded-xl text-sm border border-emerald-500/20"><i class="fas fa-check mr-1.5"></i> มาเรียน</span>`;
-                    else if(st==='late') actionHTML = `<span class="text-amber-400 font-medium bg-amber-500/10 px-4 py-2 rounded-xl text-sm border border-amber-500/20"><i class="fas fa-clock mr-1.5"></i> สาย</span>`;
-                    else if(st==='absent') actionHTML = `<span class="text-rose-400 bg-rose-500/10 px-4 py-2 rounded-xl text-sm border border-rose-500/20"><i class="fas fa-times mr-1.5"></i> ขาดเรียน</span>`;
-                    else actionHTML = `<span class="text-slate-500 font-medium bg-slate-800 px-4 py-2 rounded-xl text-sm">ไม่มีข้อมูล</span>`;
-                } else actionHTML = `<div class="inline-flex gap-1.5"><button onclick="updateAttendance(${i},'present')" class="px-3.5 py-1.5 text-sm font-medium rounded-xl transition ${btnP}">มา</button><button onclick="updateAttendance(${i},'late')" class="px-3.5 py-1.5 text-sm font-medium rounded-xl transition ${btnL}">สาย</button><button onclick="updateAttendance(${i},'absent')" class="px-3.5 py-1.5 text-sm font-medium rounded-xl transition ${btnA}">ขาด</button></div>`;
+                let bubblesHTML = `<div class="flex gap-2 justify-center">${getBubble(1, att.p1)}${getBubble(2, att.p2)}${getBubble(3, att.p3)}</div>`;
                 
-                tAtt.innerHTML += `<tr><td class="font-mono font-medium text-cyan-400 text-sm md:text-base">${s.id}</td><td class="student-name-td text-sm md:text-base">${s.name}</td><td>${actionHTML}</td><td class="text-sm md:text-base font-bold text-center text-slate-300">${pc}%</td></tr>`;
+                let actionHTML = '';
+                if (!isEditable) actionHTML = `<span class="text-slate-500 font-medium bg-slate-800 px-4 py-2 rounded-xl text-sm"><i class="fas fa-lock mr-1.5"></i> แก้ไขไม่ได้</span>`;
+                else actionHTML = `<div class="inline-flex gap-1.5"><button onclick="updateAttendance(${i},'present')" class="px-3.5 py-1.5 text-sm font-medium rounded-xl transition bg-[#080d1e] border border-slate-700/50 text-slate-400 hover:bg-emerald-500 hover:text-white">มา</button><button onclick="updateAttendance(${i},'late')" class="px-3.5 py-1.5 text-sm font-medium rounded-xl transition bg-[#080d1e] border border-slate-700/50 text-slate-400 hover:bg-amber-500 hover:text-white">สาย</button><button onclick="updateAttendance(${i},'absent')" class="px-3.5 py-1.5 text-sm font-medium rounded-xl transition bg-[#080d1e] border border-slate-700/50 text-slate-400 hover:bg-rose-500 hover:text-white">ขาด</button></div>`;
+                
+                tAtt.innerHTML += `<tr><td class="font-mono font-medium text-cyan-400 text-sm md:text-base">${s.id}</td><td class="student-name-td text-sm md:text-base">${s.name}</td><td>${bubblesHTML}</td><td>${actionHTML}</td><td class="text-sm md:text-base font-bold text-center text-slate-300">${pc}%</td></tr>`;
             });
 
             document.getElementById('grade-structure-title').innerText = `สมุดบันทึกคะแนน (${gradeSettings.preMid + gradeSettings.mid + gradeSettings.postMid + gradeSettings.behave}:${gradeSettings.final})`;
@@ -517,7 +611,6 @@
             const tGrd = document.getElementById('grades-tbody'); tGrd.innerHTML = '';
             classData.forEach((s, i) => {
                 let tdHTML = `<tr><td class="p-2 border-b student-name-td leading-tight"><b class="font-medium text-sm md:text-base">${s.name}</b><br><span class="text-xs font-mono text-cyan-500/80">${s.id}</span></td>`;
-                // 🌟 ขยายขนาดของช่อง Input เป็น w-14 และ p-1.5 สวยงามกรอกง่ายนิ้วไม่เบียด
                 preCols.forEach(c => { tdHTML += `<td class="p-1 border-b bg-indigo-950/10"><input type="number" value="${s.scores[c.id]||''}" onchange="updateCustomScore(${i},'${c.id}',this.value,${c.max})" class="w-14 text-center bg-[#02040a] border border-indigo-500/20 rounded-md p-1.5 text-sm font-bold text-indigo-300 outline-none"></td>`; });
                 tdHTML += `<td class="p-1 border-b text-center font-bold bg-indigo-900/10 text-indigo-400 text-sm md:text-base">${s.scaledPre}</td>`;
                 tdHTML += `<td class="p-1 border-b bg-blue-950/10"><input type="number" value="${s.midChoice||''}" onchange="updateLockedScore(${i},'midChoice',this.value,${gradeSettings.midChoiceMax})" class="w-14 text-center bg-[#02040a] border border-blue-500/20 rounded-md p-1.5 text-sm font-bold text-blue-400 outline-none"></td>`;
