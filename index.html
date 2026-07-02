@@ -257,11 +257,24 @@
         </div>
     </div>
 
+    <!-- 🧠 JS ENGINE CONTROL CENTER -->
     <script>
         // 🔗 ⚠️ อาจารย์นำลิงก์ Web App ใหม่ล่าสุดจาก Google Apps Script มาวางตรงนี้ครับ
-        const API_URL = "https://script.google.com/macros/s/AKfycbzCNwqL87OaEJwQMWmKsF7yETiMkBbYUv920JK-jSjmW8ITAqFzf1kW4OP3hDCkyDo-/exec"; 
+        const API_URL = "YOUR_NEW_WEB_APP_URL_HERE"; 
         
-        let teacherSession = null; let currentCourse = null; let classData = []; let currentDate = "";
+        // 🌟 ฟังก์ชันล็อกเวลาไทย 100% (แก้ปัญหาเวลาคลาดเคลื่อน)
+        function getBkkDate(offsetDays = 0) {
+            let d = new Date();
+            d.setDate(d.getDate() + offsetDays);
+            let parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Bangkok', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(d);
+            let year = parts.find(p => p.type === 'year').value;
+            let month = parts.find(p => p.type === 'month').value;
+            let day = parts.find(p => p.type === 'day').value;
+            return `${year}-${month}-${day}`;
+        }
+
+        let teacherSession = null; let currentCourse = null; let classData = []; 
+        let currentDate = getBkkDate(0); // ตั้งค่าเริ่มต้นเป็นวันนี้ (เวลาไทย)
         let gradeCols = []; let allCoursesData = [];
         let gradeSettings = { preMid: 15, mid: 20, midChoiceMax: 30, midWriteMax: 10, postMid: 15, behave: 10, final: 40, finalChoiceMax: 40, finalWriteMax: 20, credits: 3 };
         
@@ -303,19 +316,12 @@
         }
 
         function checkSession() {
-            // 🌟 ตั้งค่าให้ Date Picker ย้อนหลังได้ 7 วันจากเวลาไทย (BKK Timezone)
-            let todayObj = new Date();
-            todayObj.setHours(todayObj.getHours() + 7); 
-            let todayStr = todayObj.toISOString().split('T')[0];
-            
-            let minDateObj = new Date(todayObj);
-            minDateObj.setDate(minDateObj.getDate() - 7);
-            let minDateStr = minDateObj.toISOString().split('T')[0];
-
-            currentDate = todayStr;
-            document.getElementById('date-picker').value = currentDate;
-            document.getElementById('date-picker').max = todayStr;
-            document.getElementById('date-picker').min = minDateStr;
+            // 🌟 ตั้งค่าให้ปฏิทินย้อนหลังได้ 7 วันเป๊ะๆ
+            currentDate = getBkkDate(0);
+            const datePicker = document.getElementById('date-picker');
+            datePicker.value = currentDate;
+            datePicker.max = currentDate;
+            datePicker.min = getBkkDate(-7); // ล็อกให้ย้อนได้แค่ 7 วัน
 
             let savedCreds = JSON.parse(localStorage.getItem('savedQuantumCreds'));
             if(savedCreds) { document.getElementById('login-user').value = savedCreds.u; document.getElementById('login-pass').value = savedCreds.p; document.getElementById('remember-me').checked = true; }
@@ -553,14 +559,9 @@
         function renderAll() {
             if(!currentCourse) return; 
             
-            // 🌟 เช็คสิทธิ์การแก้ไข (อนุญาตให้แก้ได้ 7 วันย้อนหลังจากเวลาไทย)
-            let todayObj = new Date();
-            todayObj.setHours(todayObj.getHours() + 7); 
-            let todayStr = todayObj.toISOString().split('T')[0];
-            let minDateObj = new Date(todayObj);
-            minDateObj.setDate(minDateObj.getDate() - 7);
-            let minDateStr = minDateObj.toISOString().split('T')[0];
-
+            // 🌟 เช็คสิทธิ์การแก้ไข (เวลาไทย 100%)
+            let todayStr = getBkkDate(0);
+            let minDateStr = getBkkDate(-7);
             let isEditable = (currentDate >= minDateStr && currentDate <= todayStr);
             
             let badgeRO = document.getElementById('readonly-badge');
